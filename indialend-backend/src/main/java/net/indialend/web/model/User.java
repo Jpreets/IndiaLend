@@ -1,6 +1,5 @@
 package net.indialend.web.model;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,11 +12,11 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity
 @Table(name = "APP_USER")
 public class User {
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
+    
     @NotEmpty
     @Column(name = "PHONE", unique = true, nullable = false)
     private String phone;
@@ -34,6 +33,28 @@ public class User {
     @Column(name = "GENDER", nullable = false)
     private String gender;
 
+    @Column(name = "LONGITUTE", nullable = true)
+    private double longitute;
+
+    @Column(name = "LATITUTE", nullable = true)
+    private double latitude;
+
+    public double getLongitute() {
+        return longitute;
+    }
+
+    public void setLongitute(double longitute) {
+        this.longitute = longitute;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -46,7 +67,6 @@ public class User {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((phone == null) ? 0 : phone.hashCode());
         return result;
     }
@@ -63,13 +83,6 @@ public class User {
             return false;
         }
         User other = (User) obj;
-        if (id == null) {
-            if (other.id != null) {
-                return false;
-            }
-        } else if (!id.equals(other.id)) {
-            return false;
-        }
         if (phone == null) {
             if (other.phone != null) {
                 return false;
@@ -114,7 +127,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" + "id=" + id + ", phone=" + phone + ", email=" + email + ", name=" + name + ", gender=" + gender + '}';
+        return "User{ phone=" + phone + ", email=" + email + ", name=" + name + ", gender=" + gender + ", longitute=" + longitute + ", latitude=" + latitude + '}';
     }
 
 }

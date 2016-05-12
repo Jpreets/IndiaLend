@@ -11,6 +11,8 @@ public interface UserDao {
     User findByPhone(String phone);
 
     void save(User user);
+    
+    void update(User user);
 
     void deleteByPhone(String phone);
 

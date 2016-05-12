@@ -11,6 +11,24 @@ public class User {
     private String email;
     private String name;
     private String gender;
+    private double latitute;
+    private double longitute;
+
+    public double getLatitute() {
+        return latitute;
+    }
+
+    public void setLatitute(double latitute) {
+        this.latitute = latitute;
+    }
+
+    public double getLongitute() {
+        return longitute;
+    }
+
+    public void setLongitute(double longitute) {
+        this.longitute = longitute;
+    }
 
     public String getPhone() {
         return phone;

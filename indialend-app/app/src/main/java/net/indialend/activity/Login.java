@@ -12,6 +12,7 @@ import android.widget.Toast;
 import net.indialend.R;
 import net.indialend.bean.User;
 import net.indialend.dao.DatabaseHandler;
+import net.indialend.operation.RestOperation;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -85,6 +86,8 @@ public class Login extends AppCompatActivity {
         user.setGender(gender);
 
         db.addUser(user);
+
+        new RestOperation(this,user).execute("");
 
         Intent mapActivityIntent = new Intent(this, CurrentLocation.class);
         startActivity(mapActivityIntent);

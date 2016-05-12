@@ -17,16 +17,38 @@ body, .form-control{
 }
 
 .generic-container {
-  position:fixed;
-  width:80%;
-  margin-left: 20px;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  width:100%;
+  margin: auto;
+  height: 100%;
   padding: 20px;
   background-color: #EAE7E7;
   border: 1px solid #ddd;
-  border-radius: 4px;
-  box-shadow: 0 0 30px black;
+}
+
+/*
+Full screen Modal 
+*/
+.fullscreen-modal .modal-dialog {
+/*  margin: auto;*/
+  margin-right: auto;
+  margin-left: auto;
+  width: 100%;
+  
+}
+@media (min-width: 768px) {
+  .fullscreen-modal .modal-dialog {
+    width: 750px;
+  }
+}
+@media (min-width: 992px) {
+  .fullscreen-modal .modal-dialog {
+    width: 970px;
+  }
+}
+@media (min-width: 1200px) {
+  .fullscreen-modal .modal-dialog {
+     width: 1170px;
+  }
 }
 
 .custom-width {

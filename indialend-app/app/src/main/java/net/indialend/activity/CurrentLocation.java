@@ -1,14 +1,11 @@
 package net.indialend.activity;
 
 import android.Manifest;
-import android.app.Dialog;
 import android.content.pm.PackageManager;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
-import android.location.LocationManager;
-import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
@@ -21,16 +18,19 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import net.indialend.R;
+import net.indialend.bean.User;
+import net.indialend.dao.DatabaseHandler;
 import net.indialend.operation.RestOperation;
+
 
 public class CurrentLocation extends AppCompatActivity implements LocationListener {
 
     private GoogleMap mMap;
     Marker marker;
     private static final int ERROR_DIALOG_REQUEST = 9001;
+    DatabaseHandler db = new DatabaseHandler(this);
 
 
     @Override
@@ -53,23 +53,13 @@ public class CurrentLocation extends AppCompatActivity implements LocationListen
                 return;
             }
             mMap.setMyLocationEnabled(true);
-
-            LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-            boolean isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-
-            Toast.makeText(this, "isGPSEnabled :"+isGPSEnabled, Toast.LENGTH_SHORT).show();
-
-            if(isGPSEnabled) {
-                Criteria criteria = new Criteria();
-                String bestProvider = locationManager.getBestProvider(criteria, true);
-                Location location = locationManager.getLastKnownLocation(bestProvider);
-                if (location != null) {
-                    onLocationChanged(location);
+            mMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
+                @Override
+                public void onMyLocationChange(Location location) {
+                    gotoLocation(location.getLatitude(), location.getLongitude());
                 }
+            });
 
-                locationManager.requestLocationUpdates(bestProvider, 20000, 0, this);
-                Toast.makeText(this, "Ready to test", Toast.LENGTH_SHORT).show();
-            }
         }
     }
 
@@ -77,21 +67,20 @@ public class CurrentLocation extends AppCompatActivity implements LocationListen
     private void gotoLocation(double latitude,double longitude){
         LatLng latLng = new LatLng(latitude, longitude);
 
-        if(marker != null){
-            marker.remove();
-        }
-        marker= mMap.addMarker(new MarkerOptions().position(latLng));
-
         CameraUpdate update  = CameraUpdateFactory.newLatLngZoom(latLng,15);
         mMap.moveCamera(update);
 
 
         Toast.makeText(this, "Latitude:" + latitude + ", Longitude:" + longitude , Toast.LENGTH_SHORT );
 
-        String serverURL = "http://google.com/media/webservice/JsonReturn.php";
+
+        User user =  db.getUser();
+        user.setLatitute(latitude);
+        user.setLongitute(longitude);
+
 
         // Use AsyncTask execute Method To Prevent ANR Problem
-        new RestOperation(this,"test").execute(serverURL);
+        new RestOperation(this,user).execute("");
     }
 
 
@@ -124,8 +113,7 @@ public class CurrentLocation extends AppCompatActivity implements LocationListen
         if(isAvailable == ConnectionResult.SUCCESS){
             return true;
         }else if(GoogleApiAvailability.getInstance().isUserResolvableError(isAvailable)){
-//            Dialog dialog =  GoogleApiAvailability.getInstance().getErrorDialog(this, isAvailable, ERROR_DIALOG_REQUEST);
-//            dialog.show();
+
             Toast.makeText(this, "isUserResolvableError" , Toast.LENGTH_SHORT).show();
 
         }else{

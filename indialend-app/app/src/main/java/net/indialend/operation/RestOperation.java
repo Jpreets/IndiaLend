@@ -1,13 +1,12 @@
 package net.indialend.operation;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import net.indialend.bean.User;
+
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -25,32 +24,36 @@ public class RestOperation extends AsyncTask<String, Void, Void> {
 
     private String Content;
     private String Error = null;
-    private ProgressDialog Dialog;
     String data ="";
-    String postData ="" ;
     Activity activity;
+    User user ;
 
-    public RestOperation(Activity activity, String postData){
+    public RestOperation(Activity activity, User user){
         this.activity = activity;
-        Dialog  = new ProgressDialog(activity);
+        this.user= user;
+    }
 
+    private String getParamData(){
+
+        String param = "";
+        try {
+            param+="&name="+ URLEncoder.encode(user.getName(),"UTF-8");
+            param+="&phone="+ URLEncoder.encode(user.getPhone(),"UTF-8");
+            param+="&email="+ URLEncoder.encode(user.getEmail(),"UTF-8");
+            param+="&gender="+ URLEncoder.encode(user.getGender(),"UTF-8");
+            param+="&latitude="+ URLEncoder.encode(Double.toString(user.getLatitute()),"UTF-8");
+            param+="&longitute="+ URLEncoder.encode(Double.toString(user.getLongitute()),"UTF-8");
+
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return param;
     }
 
     @Override
     protected void onPreExecute() {
 
-        Dialog.setMessage("Please wait..");
-        Dialog.show();
-
-        try{
-            // Set Request parameter
-            data +="&data="+ URLEncoder.encode(postData,"UTF-8");
-
-        } catch (UnsupportedEncodingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
+           data += getParamData();
     }
 
     @Override
@@ -58,7 +61,6 @@ public class RestOperation extends AsyncTask<String, Void, Void> {
         // NOTE: You can call UI Element here.
 
         // Close progress dialog
-        Dialog.dismiss();
 
         if (Error != null) {
 
@@ -126,7 +128,7 @@ public class RestOperation extends AsyncTask<String, Void, Void> {
         {
 
             // Defined URL  where to send data
-            URL url = new URL(urls[0]);
+            URL url = new URL("http://eccc92fa.ngrok.io/indialend-backend/user");
 
             // Send POST data request
 
@@ -135,6 +137,7 @@ public class RestOperation extends AsyncTask<String, Void, Void> {
             conn.setRequestMethod("POST");
             conn.setDoOutput(true);
 
+            Log.d("OUTPUT:",data);
             OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
             wr.write( data );
             wr.flush();

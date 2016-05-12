@@ -12,21 +12,32 @@ import net.indialend.web.model.User;
 @Service("userService")
 @Transactional
 public class UserServiceImpl implements UserService {
-
+    
     @Autowired
     private UserDao dao;
-
+    
     public User findById(int id) {
         return dao.findById(id);
     }
-
+    
     public User findByPhone(String phone) {
         User user = dao.findByPhone(phone);
         return user;
     }
-
+    
     public void saveUser(User user) {
-        dao.save(user);
+        
+        User u = dao.findByPhone(user.getPhone());
+        if (u != null) {
+            u.setEmail(user.getEmail());
+            u.setGender(user.getGender());
+            u.setName(user.getName());
+            u.setLatitude(user.getLatitude());
+            u.setLongitute(user.getLongitute());
+            dao.update(u);
+        } else {
+            dao.save(user);
+        }
     }
 
     /*
@@ -35,26 +46,28 @@ public class UserServiceImpl implements UserService {
 	 * It will be updated in db once transaction ends. 
      */
     public void updateUser(User user) {
-        User entity = dao.findById(user.getId());
+        User entity = dao.findByPhone(user.getPhone());
         if (entity != null) {
             entity.setName(user.getName());
             entity.setEmail(user.getEmail());
             entity.setPhone(user.getPhone());
             entity.setGender(user.getGender());
+            entity.setLatitude(user.getLatitude());
+            entity.setLongitute(user.getLongitute());
         }
     }
-
+    
     public void deleteUserByPhone(String phone) {
         dao.deleteByPhone(phone);
     }
-
+    
     public List<User> findAllUsers() {
         return dao.findAllUsers();
     }
-
+    
     public boolean isUserPhoneUnique(Integer id, String phone) {
         User user = findByPhone(phone);
-        return (user == null || ((id != null) && (user.getId() == id)));
+        return (user == null);
     }
-
+    
 }
