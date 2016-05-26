@@ -12,15 +12,15 @@ import android.widget.Toast;
 import net.indialend.R;
 import net.indialend.bean.User;
 import net.indialend.dao.DatabaseHandler;
-import net.indialend.operation.RestOperation;
+import net.indialend.operation.RegistrationOperation;
+import net.indialend.service.BootUp;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * Created by jaspreetsingh on 5/10/16.
  */
-public class Login extends AppCompatActivity {
+public class SignUp extends AppCompatActivity {
 
     String gender= "";
     DatabaseHandler db = new DatabaseHandler(this);
@@ -30,15 +30,7 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        User user =  db.getUser();
-        Log.d("ERROR" , "User : "+user);
-        if(user != null){
-            Intent mapActivityIntent = new Intent(this, CurrentLocation.class);
-            startActivity(mapActivityIntent);
-        }
-
-        setContentView(R.layout.activtiy_login_form);
-        Log.d("ERROR" , "Login");
+        setContentView(R.layout.activtiy_sign_up);
     }
 
     public void onRadioButtonClicked(View view) {
@@ -59,6 +51,11 @@ public class Login extends AppCompatActivity {
                     break;
         }
     }
+    public void goToSignIn (View v) {
+        Intent mapActivityIntent = new Intent(this, SignIn.class);
+        startActivity(mapActivityIntent);
+        finish();
+    }
 
     public void signUp(View v) throws JSONException {
 
@@ -71,26 +68,37 @@ public class Login extends AppCompatActivity {
         EditText phone  = (EditText) findViewById(R.id.phone);
         String phoneStr =phone.getText().toString();
 
+        String password =((EditText) findViewById(R.id.password)).getText().toString();
+
+        String cpassword =((EditText) findViewById(R.id.cpassword)).getText().toString();
+
+
         if(nameStr == null  ||  nameStr.trim().isEmpty()
                 || emailStr == null ||emailStr.trim().isEmpty()
-                || phoneStr == null || phoneStr.trim().isEmpty()){
+                || phoneStr == null || phoneStr.trim().isEmpty()
+                || password == null ||password.trim().isEmpty()
+                || cpassword == null ||cpassword.trim().isEmpty()){
             Toast.makeText(this, "Every field is mandatory" , Toast.LENGTH_SHORT );
             return;
 
         }
+        if(!cpassword.equals(password)){
+            Toast.makeText(this, "Password does not match" , Toast.LENGTH_SHORT );
+            return;
+        }
+
 
         User user =  new User();
         user.setName(nameStr);
         user.setEmail(emailStr);
         user.setPhone(phoneStr);
         user.setGender(gender);
+        user.setPassword(password);
+        user.setActive(false);
 
-        db.addUser(user);
 
-        new RestOperation(this,user).execute("");
+       new RegistrationOperation(this, user).execute();
 
-        Intent mapActivityIntent = new Intent(this, CurrentLocation.class);
-        startActivity(mapActivityIntent);
-        finish();
+
     }
 }

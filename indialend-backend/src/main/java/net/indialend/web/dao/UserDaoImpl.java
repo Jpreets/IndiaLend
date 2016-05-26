@@ -23,7 +23,9 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
         Criteria crit = createEntityCriteria();
         crit.add(Restrictions.eq("phone", phone));
         User user = (User) crit.uniqueResult();
-
+//        if (user != null) {
+//            Hibernate.initialize(user.getUserLocations());
+//        }
         return user;
     }
 
@@ -46,5 +48,22 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
         User user = (User) crit.uniqueResult();
         delete(user);
     }
+
+    public User login(String phoneEmail, String password) {
+        Criteria criteria = createEntityCriteria();
+        criteria.add(Restrictions.eq("password", password));
+        criteria.add(Restrictions.or(Restrictions.eq("phone", phoneEmail), Restrictions.eq("email", phoneEmail)));
+
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);//To avoid duplicates.
+        List<User> users = (List<User>) criteria.list();
+        if (users.size() > 0) {
+            User u = users.get(0);
+            Hibernate.initialize(u.getUserLocations());
+            return u;
+        }
+
+        return null;
+    }
+
 
 }

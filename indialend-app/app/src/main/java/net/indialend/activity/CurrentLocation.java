@@ -1,6 +1,7 @@
 package net.indialend.activity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -8,6 +9,8 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -38,12 +41,19 @@ public class CurrentLocation extends AppCompatActivity implements LocationListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_location);
         Log.d("ERROR" , "Location");
+        User user =  db.getUser();
+        if(user == null) {
+            Intent mapActivityIntent = new Intent(this, SignIn.class);
+            startActivity(mapActivityIntent);
+            finish();
+        }
+
 
         if (serviceOK()) {
 
             SupportMapFragment supportMapFragment =
                     (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-            mMap = supportMapFragment.getMap();
+            mMap =  supportMapFragment.getMap();
 
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                     != PackageManager.PERMISSION_GRANTED
@@ -80,7 +90,7 @@ public class CurrentLocation extends AppCompatActivity implements LocationListen
 
 
         // Use AsyncTask execute Method To Prevent ANR Problem
-        new RestOperation(this,user).execute("");
+        new RestOperation(user).execute("");
     }
 
 
@@ -92,6 +102,32 @@ public class CurrentLocation extends AppCompatActivity implements LocationListen
         gotoLocation(latitude, longitude);
 
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_items, menu);//Menu Resource, Menu
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.logout:
+                User u  = db.getUser();
+                u.setActive(false);
+                new RestOperation(u).execute("");
+
+                db.deleteUser();
+                Intent mapActivityIntent = new Intent(this, SignIn.class);
+                startActivity(mapActivityIntent);
+                finish();
+                Toast.makeText(getApplicationContext(),"Logout Successfull",Toast.LENGTH_LONG).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {

@@ -7,36 +7,57 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.indialend.web.dao.UserDao;
+import net.indialend.web.dao.UserLocationDao;
 import net.indialend.web.model.User;
+import net.indialend.web.model.UserLocations;
 
 @Service("userService")
 @Transactional
 public class UserServiceImpl implements UserService {
+
+    @Autowired
+    private UserDao userDao;
     
     @Autowired
-    private UserDao dao;
-    
+    private UserLocationDao userLocationDao;
+
     public User findById(int id) {
-        return dao.findById(id);
+        return userDao.findById(id);
     }
-    
+
     public User findByPhone(String phone) {
-        User user = dao.findByPhone(phone);
+        User user = userDao.findByPhone(phone);
         return user;
     }
-    
+
     public void saveUser(User user) {
-        
-        User u = dao.findByPhone(user.getPhone());
+
+        User u = userDao.findByPhone(user.getPhone());
         if (u != null) {
             u.setEmail(user.getEmail());
             u.setGender(user.getGender());
             u.setName(user.getName());
             u.setLatitude(user.getLatitude());
             u.setLongitute(user.getLongitute());
-            dao.update(u);
+            u.setGcmToken(user.getGcmToken());
+            u.setActive(user.isActive());
+            userDao.update(u);
+            
+           
+            System.out.println("u.isService()"+u.isService());
+            if (user.isService()) {
+                
+                UserLocations locations = new UserLocations();
+                locations.setUser(u);
+                locations.setLatitude(user.getLatitude());
+                locations.setLongitute(user.getLongitute());
+                
+                userLocationDao.save(locations);
+                System.out.println("save");
+            }
+             user =u;
         } else {
-            dao.save(user);
+            userDao.save(user);
         }
     }
 
@@ -46,7 +67,7 @@ public class UserServiceImpl implements UserService {
 	 * It will be updated in db once transaction ends. 
      */
     public void updateUser(User user) {
-        User entity = dao.findByPhone(user.getPhone());
+        User entity = userDao.findByPhone(user.getPhone());
         if (entity != null) {
             entity.setName(user.getName());
             entity.setEmail(user.getEmail());
@@ -56,18 +77,39 @@ public class UserServiceImpl implements UserService {
             entity.setLongitute(user.getLongitute());
         }
     }
-    
+
     public void deleteUserByPhone(String phone) {
-        dao.deleteByPhone(phone);
+        userDao.deleteByPhone(phone);
     }
-    
+
     public List<User> findAllUsers() {
-        return dao.findAllUsers();
+        return userDao.findAllUsers();
     }
-    
+
     public boolean isUserPhoneUnique(Integer id, String phone) {
         User user = findByPhone(phone);
         return (user == null);
     }
-    
+
+    public User login(String phoneEmail,String password) {
+        return userDao.login(phoneEmail,password);
+    }
+
+    public User findByPhoneAndDate(String phone, String selectedDate) {
+        User user = userDao.findByPhone(phone);
+        List<UserLocations> userLocationses =  userLocationDao.findByUserIdAndDate(user.getUser_id(), selectedDate);
+        user.setUserLocations(userLocationses);
+        return user;
+    }
+
+    public void deactivateUser(String phone) {
+       
+        User u = userDao.findByPhone(phone);
+        if (u != null) {
+            u.setActive(false);
+            userDao.update(u);
+        }
+
+    }
+
 }

@@ -102,12 +102,12 @@
 					<version>2.4</version>
 					<configuration>
 						<warSourceDirectory>src/main/webapp</warSourceDirectory>
-						<warName>SpringMVCHibernateManyToManyCRUDExample</warName>
+						<warName>indialend</warName>
 						<failOnMissingWebXml>false</failOnMissingWebXml>
 					</configuration>
 				</plugin>
 			</plugins>
 		</pluginManagement>
-		<finalName>SpringMVCHibernateManyToManyCRUDExample</finalName>
+		<finalName>indialend</finalName>
 	</build>
 </project>

@@ -1,12 +1,23 @@
 package net.indialend.operation;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import net.indialend.R;
+import net.indialend.activity.CurrentLocation;
+import net.indialend.activity.SignIn;
 import net.indialend.bean.User;
+import net.indialend.dao.DatabaseHandler;
 
+
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -20,30 +31,50 @@ import java.net.URLEncoder;
 /**
  * Created by jaspreetsingh on 5/9/16.
  */
-public class RestOperation extends AsyncTask<String, Void, Void> {
+public class RegistrationOperation   extends AsyncTask<String, Void, Void> {
 
-    private String Content;
-    private String Error = null;
-    String data ="";
 
     User user ;
+    Activity activity;
+    AlphaAnimation inAnimation;
+    AlphaAnimation outAnimation;
 
-    public RestOperation( User user){
 
+    public RegistrationOperation( Activity activity,User user){
+        this.activity =activity;
         this.user= user;
     }
 
     @Override
     protected void onPreExecute() {
+        FrameLayout progressBarHolder = (FrameLayout)activity.findViewById(R.id.progressBarHolder);
+        inAnimation = new AlphaAnimation(0f, 1f);
+        inAnimation.setDuration(200);
+        progressBarHolder.setAnimation(inAnimation);
+        progressBarHolder.setVisibility(View.VISIBLE);
 
-           data += this.user.getParamData();
     }
 
     @Override
     protected void onPostExecute(Void unused) {
         // NOTE: You can call UI Element here.
 
+        FrameLayout progressBarHolder = (FrameLayout)activity.findViewById(R.id.progressBarHolder);
+        outAnimation = new AlphaAnimation(1f, 0f);
+        outAnimation.setDuration(200);
+        progressBarHolder.setAnimation(outAnimation);
+        progressBarHolder.setVisibility(View.GONE);
 
+        if(user.getUserId() ==0) {
+
+            Toast.makeText(activity, "Invalid Credentials", Toast.LENGTH_SHORT);
+            return;
+        }
+
+
+        Intent mapActivityIntent = new Intent(activity, SignIn.class);
+        activity.startActivity(mapActivityIntent);
+        activity.finish();
 
     }
 
@@ -58,7 +89,7 @@ public class RestOperation extends AsyncTask<String, Void, Void> {
         {
 
             // Defined URL  where to send data
-            URL url = new URL("http://jazzkart-jazzkart.rhcloud.com/indialend/user");
+            URL url = new URL("http://jazzkart-jazzkart.rhcloud.com/indialend/signUp");
 
             // Send POST data request
 
@@ -67,6 +98,7 @@ public class RestOperation extends AsyncTask<String, Void, Void> {
             conn.setRequestMethod("POST");
             conn.setDoOutput(true);
 
+            String data = this.user.getParamData();
             Log.d("OUTPUT:",data);
             OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
             wr.write( data );
@@ -86,22 +118,22 @@ public class RestOperation extends AsyncTask<String, Void, Void> {
             }
 
             // Append Server Response To Content String
-            Content = sb.toString();
+            String Content = sb.toString();
             Log.v("OUTPU:",Content);
+
+            JSONObject jsonObject =  new JSONObject(Content);
+            int id =  jsonObject.getInt("user_id");
+            if(id != 0) {
+                user.setUserId(id);
+            }
         }
         catch(Exception ex)
         {
-            Error = ex.getMessage();
+            Log.d("OUTPUT:",ex.getMessage());
         }
         finally
         {
-            try
-            {
-
-                reader.close();
-            }
-
-            catch(Exception ex) {}
+            try {  reader.close();} catch(Exception ex) {}
         }
 
         /*****************************************************/

@@ -1,22 +1,30 @@
 package net.indialend.web.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "APP_USER")
 public class User {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    
+    @Column(name = "USER_ID")
+    private Integer user_id;
+
     @NotEmpty
     @Column(name = "PHONE", unique = true, nullable = false)
     private String phone;
@@ -33,11 +41,68 @@ public class User {
     @Column(name = "GENDER", nullable = false)
     private String gender;
 
-    @Column(name = "LONGITUTE", nullable = true)
+    @NotEmpty
+    @Column(name = "PASSWORD", nullable = false)
+    private String password;
+
+    @Column(name = "LONGITUTE")
     private double longitute;
 
-    @Column(name = "LATITUTE", nullable = true)
+    @Column(name = "LATITUTE")
     private double latitude;
+
+    @Column(name = "SERVICE")
+    private boolean service;
+
+    @Column(name = "ACTIVE" )
+    private boolean active = true;
+
+    @Column(name = "GCM_TOKEN")
+    private String gcmToken;
+
+    public String getGcmToken() {
+        return gcmToken;
+    }
+
+    public void setGcmToken(String gcmToken) {
+        this.gcmToken = gcmToken;
+    }
+
+    @OneToMany(mappedBy = "user")
+    @JsonManagedReference
+    private List<UserLocations> userLocations;
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public boolean isService() {
+        return service;
+    }
+
+    public void setService(boolean service) {
+        this.service = service;
+    }
+
+    public List<UserLocations> getUserLocations() {
+        return userLocations;
+    }
+
+    public void setUserLocations(List<UserLocations> userLocations) {
+        this.userLocations = userLocations;
+    }
 
     public double getLongitute() {
         return longitute;
@@ -53,14 +118,6 @@ public class User {
 
     public void setLatitude(double latitude) {
         this.latitude = latitude;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     @Override
@@ -123,6 +180,14 @@ public class User {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public Integer getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(Integer user_id) {
+        this.user_id = user_id;
     }
 
     @Override
