@@ -1,0 +1,56 @@
+body, #mainWrapper {
+	height: 100%;
+	background-color:rgb(245, 245, 245);
+}
+
+body, .form-control{
+	font-size:12px!important;
+}
+
+.floatRight{
+	float:right;
+	margin-right: 18px;
+}
+
+.has-error{
+	color:red;
+}
+
+.generic-container {
+  width:100%;
+  margin: auto;
+  height: 100%;
+  padding: 20px;
+  background-color: #EAE7E7;
+  border: 1px solid #ddd;
+}
+
+/*
+Full screen Modal 
+*/
+.fullscreen-modal .modal-dialog {
+/*  margin: auto;*/
+  margin-right: auto;
+  margin-left: auto;
+  width: 100%;
+  
+}
+@media (min-width: 768px) {
+  .fullscreen-modal .modal-dialog {
+    width: 750px;
+  }
+}
+@media (min-width: 992px) {
+  .fullscreen-modal .modal-dialog {
+    width: 970px;
+  }
+}
+@media (min-width: 1200px) {
+  .fullscreen-modal .modal-dialog {
+     width: 1170px;
+  }
+}
+
+.custom-width {
+    width: 80px !important;
+}
