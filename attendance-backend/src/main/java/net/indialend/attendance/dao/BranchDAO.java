@@ -15,10 +15,14 @@ import net.indialend.attendance.bean.Branch;
  */
 public interface BranchDAO {
 
-    public boolean saveBranch(Branch branch);
+    public void persist(Branch branch);
 
-    public Branch getBranch(long branchId);
+    public void update(Branch branch);
+
+    public Branch getByKey(Long branchId);
 
     public List<Branch> getBranch(int offset, int limit);
+
+    public void delete(Branch branch);
 
 }

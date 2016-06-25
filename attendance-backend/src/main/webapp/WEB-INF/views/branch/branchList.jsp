@@ -11,215 +11,89 @@
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
         <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
         <link href="<c:url value='/static/css/app.css' />" rel="stylesheet"></link>
-        <script src="http://maps.google.com/maps/api/js?sensor=false&v=3.23">
-        </script>
-    </head>
+    </script>
+</head>
 
-    <body>
-        <div class="container">
+<body>
 
-            <div class="generic-container">
-                <div class="panel panel-default">
-                    <!-- Default panel contents -->
-                    <div class="panel-heading">
-                        <span class="lead">List of Users </span>
-                        <span style="float: right;" > <a  style="width: 95px !important;" href="http://jazzkart-jazzkart.rhcloud.com/mobileapp/indialend.apk"  target="_blank" class="btn btn-danger custom-width">Mobile App</a></span>
-                    </div>
-                    <table class="table table-hover">
-                        <thead>
+
+    <div class="container">
+
+               <jsp:include page="../navigation.jsp"/>
+
+        <div class="generic-container">
+            <div class="panel panel-default">
+                <!-- Default panel contents -->
+                <div class="panel-heading">
+                    <span class="lead">List of Branch </span><br>
+
+                    <a  style="width: 95px !important;" 
+                        href="edit" 
+                        class="btn btn-default">Add</a>
+
+                    <a  style="width: 95px !important;" 
+                        id="edit" 
+                        class="btn btn-default">Edit</a>
+
+                    <a  style="width: 95px !important;" 
+                        id="delete" 
+                        class="btn btn-default">Delete</a>
+                </div>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th><input id="selectAll" type="checkbox" value="0" ></th>
+                            <th>Branch ID</th>
+                            <th>Name</th>
+                            <th>Manager</th>
+                            <th>Location</th>
+                            <th>phone</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach items="${branchList}" var="branch">
                             <tr>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Gender</th>
-                                <th>Active</th>
-                                <th width="100"></th>
+                                <td><input type="checkbox" value="${branch.branchId}"></td>
+                                <td>${branch.branchId}</td>
+                                <td>${branch.name}</td>
+                                <td>${branch.manager}</td>
+                                <td>${branch.location}</td>
+                                <td>${branch.phone}</td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach items="${users}" var="user">
-                                <tr>
-                                    <td>${user.name}</td>
-                                    <td>${user.email}</td>
-                                    <td>${user.phone}</td>
-                                    <td>${user.gender}</td>
-                                    <td>${user.active}</td>
-                                    <td> 
-                                        <c:if test="${user.active}">
-                                            <button type="button"  id="myDABtn_${user.phone}" class="btn btn-danger custom-width">Deactivate</button>
-                                            <script>
-                                            $("#myDABtn_${user.phone}").click(function () {
-                                                var r = confirm(" Are you sure you want to deactivate "+ this.parentElement.parentElement.children[0].innerText);
-                                                if (r == true) {
-                                                   var deactivatePhone = this.parentElement.parentElement.children[2].innerText;
-
-                                                   window.location="deactivate-"+deactivatePhone; 
-                                                } 
-                                                
-                                                
-                                            });
-                                        </script> 
-                                        
-                                        <button type="button"  id="myBtn_${user.phone}" class="btn btn-danger custom-width">Track</button>
-                                        <script>
-                                            $("#myBtn_${user.phone}").click(function () {
-                                                $("#title").text(this.parentElement.parentElement.children[0].innerText);
-                                                selectedPhone = this.parentElement.parentElement.children[2].innerText;
-                                                $("#myModal").modal();
-                                            });
-                                        </script> 
-                                        </c:if>
-                                    </td>
-                                </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-
-            <div class="modal fade fullscreen-modal" id="myModal" role="dialog">
-                <div class="modal-dialog">
-
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
-                            <h4 class="modal-title">
-                                <div id="title" style="float: left;">Modal Header</div>
-                                <span style="float: right;" > Date: <input type="text" id="datepicker" ></span>
-                            </h4>
-                            <script>
-                                $(function() {
-                               
-                                $("#datepicker").datepicker({
-                                    dateFormat:"yy/mm/dd",
-                                    
-                                    onSelect: function(dateText) {
-                                            selectedDate = dateText;
-                                            doInitialize();
-                                    }
-                                });
-                                $("#datepicker").datepicker("setDate", "-0d");
-                                selectedDate= $("#datepicker").val();
-                            });  
-                            </script>
-                        </div>
-                        <div class="modal-body">
-                            <div id="dvMap" style="width: 100%; height: 500px">
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-
-                </div>
+                        </c:forEach>
+                    </tbody>
+                </table>
             </div>
         </div>
-    </body>
+    </div>
+</body>
 </html>
 <script>
+    $('#edit').click(function () {
+        var searchIDs = [];
+        $('input:checked').map(function () {
+            if ($(this).val() != "0")
+                searchIDs.push($(this).val());
+        });
+        if (searchIDs.length == 1) {
+            window.location.href = "edit?branchId=" + searchIDs[0];
+        }
 
-            var loopStarted = false;
-            var selectedPhone;
-            var selectedDate;
-            var interval = 5000;
-            var map;
-            var marker;
-            function initMap(latitude, longitude) {
-            var latlng = new google.maps.LatLng(latitude, longitude);
-                    var myOptions = {
-                    zoom: 15,
-                            center: latlng
-                    };
-                    map = new google.maps.Map(document.getElementById('dvMap'), myOptions);
-                    marker = new google.maps.Marker({
-                    position: latlng,
-                            map: map
-
-                    });
-            }
-
-    function updateMap(latitude, longitude) {
-    var latlng = new google.maps.LatLng(latitude, longitude);
-            marker.setPosition(latlng);
-//        map.setCenter(latlng);
-
-    }
-
-    function updateMaps(locations) {
-    var path = [];
-            var i = 0;
-            for (i = 0; i < locations.length; i++) {
-
-    path.push(new google.maps.LatLng(locations[i].latitude, locations[i].longitute));
-    }
-    var polyline = new google.maps.Polyline({
-    strokeColor: "#0000FF", // blue (RRGGBB, R=red, G=green, B=blue)
-            strokeOpacity: 0.4, // opacity of line
     });
-            if (path.length > 1) {
-    // display the polyline once it has more than one point
+    $('#delete').click(function () {
+        var searchIDs = [];
+        $('input:checked').map(function () {
+            if ($(this).val() != "0")
+                searchIDs.push($(this).val());
+        });
 
-    polyline.setPath(path);
-            polyline.setMap(map);
-    }
+        window.location.href = "delete?branchId=" + searchIDs;
 
-    var latlng = new google.maps.LatLng(locations[i - 1].latitude, locations[i - 1].longitute);
-            marker.setPosition(latlng);
-//        map.setCenter(latlng);
-
-    }
-
-    function doUpdate() {
-
-    $.ajax({
-            type: "get",
-            url: "user",
-            async: false,
-            data: "phone=" + selectedPhone+"&selectedDate="+selectedDate,
-            datatype: "json",
-            success: function (data)
-            {
-            if (data.userLocations.length > 0) {
-            updateMaps(data.userLocations);
-            } else {
-            updateMap(data.latitude, data.longitute);
-            }
-            },
-            complete: function (data) {
-            // Schedule the next
-            setTimeout(doUpdate, interval);
-            }
-    });
-    }
-
-
-    function doInitialize() {
-    $.ajax({
-    type: "get",
-            url: "user",
-            async: false,
-            data: "phone=" + selectedPhone+"&selectedDate="+selectedDate,
-            datatype: "json",
-            success: function (data)
-            {
-            initMap(data.latitude, data.longitute);
-                    if (!loopStarted) {
-            doUpdate();
-                    loopStarted = true;
-            }
-            }
-    });
-    }
-
-    $(document).ready(function () {
-    $("#myModal").on("shown.bs.modal", function () {
-    doInitialize();
-    });
     });
 
+    $('#selectAll').click(function () {
+        $('input:checkbox').prop('checked', $(this).is(':checked'));
+    });
 </script>
+

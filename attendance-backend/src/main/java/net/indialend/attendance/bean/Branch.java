@@ -24,7 +24,10 @@ public class Branch {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "branch_id")
     private long branchId;
-    private String branchName;
+    private String name;
+    private String manager;
+    private String location;
+    private String phone;
 
     public long getBranchId() {
         return branchId;
@@ -34,12 +37,36 @@ public class Branch {
         this.branchId = branchId;
     }
 
-    public String getBranchName() {
-        return branchName;
+    public String getName() {
+        return name;
     }
 
-    public void setBranchName(String branchName) {
-        this.branchName = branchName;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getManager() {
+        return manager;
+    }
+
+    public void setManager(String manager) {
+        this.manager = manager;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
 }

@@ -1,4 +1,4 @@
-package net.indialend.web.dao;
+package net.indialend.attendance.dao;
 
 import java.io.Serializable;
 

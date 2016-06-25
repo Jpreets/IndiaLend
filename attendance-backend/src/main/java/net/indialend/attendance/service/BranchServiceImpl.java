@@ -7,17 +7,48 @@ package net.indialend.attendance.service;
 
 import java.util.List;
 import net.indialend.attendance.bean.Branch;
+import net.indialend.attendance.dao.BranchDAO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author jaspreetsingh
  */
-public interface BranchService {
+@Service
+@Transactional
+public class BranchServiceImpl implements BranchService {
 
-    public boolean saveBranch(Branch branch);
+    @Autowired
+    private BranchDAO branchDAO;
 
-    public Branch getBranch(long branchId);
+    public boolean saveBranch(Branch branch) {
+        if (branch.getBranchId() != 0) {
+            Branch b1 = branchDAO.getByKey(branch.getBranchId());
+            b1.setName(branch.getName());
+            b1.setManager(branch.getManager());
+            b1.setLocation(branch.getLocation());
+            b1.setPhone(branch.getPhone());
+            branch = b1;
+        }
 
-    public List<Branch> getBranch(int offset, int limit);
+        branchDAO.persist(branch);
+        return branch.getBranchId() > 0;
+    }
+
+    public Branch getBranch(long branchId) {
+        return branchDAO.getByKey(branchId);
+    }
+
+    public List<Branch> getBranch(int offset, int limit) {
+        return branchDAO.getBranch(offset, limit);
+    }
+
+    public boolean deleteBranch(long branchId) {
+        Branch b1 = branchDAO.getByKey(branchId);
+        branchDAO.delete(b1);
+        return true;
+    }
 
 }

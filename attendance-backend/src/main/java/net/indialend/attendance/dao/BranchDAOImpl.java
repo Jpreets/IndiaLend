@@ -3,21 +3,31 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.indialend.attendance.service;
+package net.indialend.attendance.dao;
 
+import net.indialend.attendance.service.*;
 import java.util.List;
 import net.indialend.attendance.bean.Branch;
+import net.indialend.attendance.dao.BranchDAO;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author jaspreetsingh
  */
-public interface BranchService {
+@Repository
+public class BranchDAOImpl extends AbstractDao<Long, Branch> implements BranchDAO {
 
-    public boolean saveBranch(Branch branch);
+    @Override
+    public List<Branch> getBranch(int offset, int limit) {
+        Criteria crit = createEntityCriteria();
+        crit.setFirstResult(offset);
+        crit.setMaxResults(limit);
+        return (List<Branch>) crit.list();
+    }
 
-    public Branch getBranch(long branchId);
-
-    public List<Branch> getBranch(int offset, int limit);
 
 }

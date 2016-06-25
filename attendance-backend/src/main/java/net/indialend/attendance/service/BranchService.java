@@ -20,4 +20,6 @@ public interface BranchService {
 
     public List<Branch> getBranch(int offset, int limit);
 
+    public boolean deleteBranch(long branchId);
+
 }
