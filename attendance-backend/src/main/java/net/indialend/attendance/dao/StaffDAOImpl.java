@@ -5,13 +5,10 @@
  */
 package net.indialend.attendance.dao;
 
-import net.indialend.attendance.service.*;
 import java.util.List;
 import net.indialend.attendance.bean.Branch;
-import net.indialend.attendance.dao.BranchDAO;
+import net.indialend.attendance.bean.Staff;
 import org.hibernate.Criteria;
-import org.hibernate.criterion.Restrictions;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -19,21 +16,14 @@ import org.springframework.stereotype.Repository;
  * @author jaspreetsingh
  */
 @Repository
-public class BranchDAOImpl extends AbstractDao<Long, Branch> implements BranchDAO {
+public class StaffDAOImpl extends AbstractDao<Long, Staff> implements StaffDAO {
 
     @Override
-    public List<Branch> getBranch(int offset, int limit) {
+    public List<Staff> getStaff(int offset, int limit) {
         Criteria crit = createEntityCriteria();
         crit.setFirstResult(offset);
         crit.setMaxResults(limit);
-        return (List<Branch>) crit.list();
+        return (List<Staff>) crit.list();
     }
-    
-     @Override
-    public List<Branch> getBranch() {
-        Criteria crit = createEntityCriteria();
-        return (List<Branch>) crit.list();
-    }
-
 
 }

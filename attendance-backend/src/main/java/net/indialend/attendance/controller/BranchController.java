@@ -46,11 +46,7 @@ public class BranchController {
     public ModelAndView saveBranch(Branch branch) {
         ModelAndView view = new ModelAndView(new RedirectView("list"));
 
-        if (!branchService.saveBranch(branch)) {
-            view = new ModelAndView("branch/branchList");
-            view.addObject("branchList", branch);
-
-        }
+        branchService.saveBranch(branch);
 
         return view;
     }

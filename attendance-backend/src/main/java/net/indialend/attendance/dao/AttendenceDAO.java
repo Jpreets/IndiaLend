@@ -5,6 +5,7 @@
  */
 package net.indialend.attendance.dao;
 
+import java.util.Date;
 import java.util.List;
 import net.indialend.attendance.service.*;
 import net.indialend.attendance.bean.Attendence;
@@ -15,15 +16,14 @@ import net.indialend.attendance.bean.Staff;
  *
  * @author jaspreetsingh
  */
-public interface StaffDAO {
+public interface AttendenceDAO {
 
-    public void persist(Staff branch);
+    public void persist(Attendence attendence);
 
-    public void update(Staff branch);
+    public void update(Attendence attendence);
 
-    public void delete(Staff branch);
+    public Attendence getByKey(Long attendenceId);
 
-    public Staff getByKey(Long staffId);
+    public List<Attendence> getAttendence(long staffId, Date fromDate, Date toDate);
 
-    public List<Staff> getStaff(int offset, int limit);
 }

@@ -20,13 +20,13 @@
 
     <div class="container">
 
-               <jsp:include page="../navigation.jsp"/>
+        <jsp:include page="../navigation.jsp"/>
 
         <div class="generic-container">
             <div class="panel panel-default">
                 <!-- Default panel contents -->
                 <div class="panel-heading">
-                    <span class="lead">List of Branch </span><br>
+                    <span class="lead">List of Staff </span><br>
 
                     <a  style="width: 95px !important;" 
                         href="edit" 
@@ -39,27 +39,32 @@
                     <a  style="width: 95px !important;" 
                         id="delete" 
                         class="btn btn-default">Delete</a>
+                    <a  style="width: 95px !important;" 
+                        id="attendence" 
+                        class="btn btn-default">Attendence</a>
                 </div>
                 <table class="table table-hover">
                     <thead>
                         <tr>
                             <th><input id="selectAll" type="checkbox" value="0" ></th>
-                            <th>Branch ID</th>
+                            <th>Staff ID</th>
                             <th>Name</th>
-                            <th>Manager</th>
-                            <th>Location</th>
+                            <th>email</th>
+                            <th>gender</th>
                             <th>phone</th>
+                            <th>Branch</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <c:forEach items="${branchList}" var="branch">
+                        <c:forEach items="${staffList}" var="staff">
                             <tr>
-                                <td><input type="checkbox" value="${branch.branchId}"></td>
-                                <td>${branch.branchId}</td>
-                                <td>${branch.name}</td>
-                                <td>${branch.manager}</td>
-                                <td>${branch.location}</td>
-                                <td>${branch.phone}</td>
+                                <td><input type="checkbox" value="${staff.staffId}"></td>
+                                <td>${staff.staffId}</td>
+                                <td>${staff.name}</td>
+                                <td>${staff.email}</td>
+                                <td>${staff.gender}</td>
+                                <td>${staff.phone}</td>
+                                <td>${staff.branch.name}</td>
                             </tr>
                         </c:forEach>
                     </tbody>
@@ -77,7 +82,23 @@
                 searchIDs.push($(this).val());
         });
         if (searchIDs.length == 1) {
-            window.location.href = "edit?branchId=" + searchIDs[0];
+            window.location.href = "edit?staffId=" + searchIDs[0];
+        } else {
+            alert("No record selected");
+        }
+
+    });
+    
+    $('#attendence').click(function () {
+        var searchIDs = [];
+        $('input:checked').map(function () {
+            if ($(this).val() != "0")
+                searchIDs.push($(this).val());
+        });
+        if (searchIDs.length == 1) {
+            window.location.href = "../attendence/list?staffId=" + searchIDs[0];
+        } else {
+            alert("No record selected");
         }
 
     });
@@ -88,8 +109,11 @@
                 searchIDs.push($(this).val());
         });
 
-        window.location.href = "delete?branchId=" + searchIDs;
-
+        if (searchIDs.length == 0) {
+            alert("No record selected");
+        } else {
+            window.location.href = "delete?staffId=" + searchIDs;
+        }
     });
 
     $('#selectAll').click(function () {

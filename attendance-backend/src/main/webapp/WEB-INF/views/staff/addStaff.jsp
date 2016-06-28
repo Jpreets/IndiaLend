@@ -26,11 +26,11 @@
                 <div class="panel-heading">
                     <span class="lead">
                         <c:choose>
-                            <c:when test="${branch.branchId >0}">
-                                Edit Branch
+                            <c:when test="${staff.staffId >0}">
+                                Edit Staff
                             </c:when>
                             <c:otherwise>
-                                Add Branch
+                                Add Staff
                             </c:otherwise>
                         </c:choose>
                     </span><br>
@@ -38,27 +38,74 @@
                 </div>
                 <br>
 
-                <form role="form" action="save">
+                <form role="form" action="save" method="POST">
                     <div class="col-md-6 form-group">
                         <label for="textbox1">Name</label>
-                        <input class="form-control" id="textbox1" type="text" name="name" value="<c:out value="${branch.name}"/>"/>
+                        <input class="form-control" id="textbox1" type="text" name="name" value="<c:out value="${staff.name}"/>"/>
                     </div>
                     <div class="col-md-6 form-group">
-                        <label for="textbox2">Manager</label>
-                        <input class="form-control" id="textbox2" type="text"  name="manager"  value="<c:out value="${branch.manager}"/>" />
+                        <label for="textbox2">Email</label>
+                        <input class="form-control" id="textbox2" type="text"  name="email"  value="<c:out value="${staff.email}"/>" />
                     </div>
                     <span class="clearfix"/>
                     <div class="col-md-6 form-group">
-                        <label for="textbox1">Location</label>
-                        <input class="form-control" id="textbox1" type="text"  name="location"  value="<c:out value="${branch.location}"/>"/>
+                        <label for="textbox1">Phone</label>
+                        <input class="form-control" id="textbox1" type="text"  name="phone"  value="<c:out value="${staff.phone}"/>"/>
                     </div>
                     <div class="col-md-6 form-group">
-                        <label for="textbox2">Phone</label>
-                        <input class="form-control" id="textbox2" type="text"  name="phone"  value="<c:out value="${branch.phone}"/>"/>
+                        <label for="textbox2">Gender</label>
+                         <select class="form-control"  id="textbox1"  name="gender" >
+                                <option value="MALE"  ${staff.gender ==  "MALE" ?"selected":""} >Male</option>
+                                <option value="FEMALE"  ${staff.gender ==  "FEMALE" ?"selected":""} >Female</option>
+                        </select>
+                    </div>
+                    <span class="clearfix"/>
+                    <div class="col-md-6 form-group">
+                        <label for="textbox1">Branch</label>
+                        <select class="form-control"  id="textbox1"  name="branchId" >
+                            <c:forEach items="${branchList}" var="branch">
+                                <option value="${branch.branchId}"  ${branch.branchId ==  staff.branch.branchId ?"selected":""} >${branch.name}</option>
+
+                            </c:forEach>
+
+                        </select>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="textbox2">Bood Group</label>
+                        <input class="form-control" id="textbox2" type="text"  name="bloodGroup"  value="<c:out value="${staff.bloodGroup}"/>"/>
+                    </div>
+                    <span class="clearfix"/>
+                    <div class="col-md-6 form-group">
+                        <label for="textbox1">Aadhaar No.</label>
+                        <input class="form-control" id="textbox1" type="text"  name="aadhaarNo"  value="<c:out value="${staff.aadhaarNo}"/>"/>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="textbox2">PAN No.</label>
+                        <input class="form-control" id="textbox2" type="text"  name="panNo"  value="<c:out value="${staff.panNo}"/>"/>
+                    </div>
+                    <span class="clearfix"/>
+                    <div class="col-md-6 form-group">
+                        <label for="textbox1">Father Name</label>
+                        <input class="form-control" id="textbox1" type="text"  name="fatherName"  value="<c:out value="${staff.fatherName}"/>"/>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="textbox2">Mother Name</label>
+                        <input class="form-control" id="textbox2" type="text"  name="motherName"  value="<c:out value="${staff.motherName}"/>"/>
+                    </div>
+                    <span class="clearfix"/>
+                    <div class="col-md-6 form-group">
+                        <label for="textbox1">Current Address</label>
+                        <textarea class="form-control" id="textbox1"   name="currentAddr" ><c:out value="${staff.currentAddr}"/></textarea>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="textbox2">Permanent Address</label>
+                        <textarea class="form-control" id="textbox2"  name="permanentAddr" ><c:out value="${staff.permanentAddr}"/> </textarea>
                     </div>
                     <span class="clearfix"/>
                     <div class="col-md-3 form-group">
-                         <input  type="hidden"  name="branchId"  value="<c:out value="${branch == null ?0:branch.branchId}"/>"/>
+                         <input type="hidden" 
+                               name="${_csrf.parameterName}" value="${_csrf.token}" />
+                        <input  type="hidden"  name="staffId"  value="<c:out value="${staff == null ?0:staff.staffId}"/>"/>
                         <button type="submit" class="btn btn-default">Submit</button>
                         <a  href="list" class="btn btn-default">Cancel</a>
                     </div>

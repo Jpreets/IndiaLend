@@ -51,4 +51,9 @@ public class BranchServiceImpl implements BranchService {
         return true;
     }
 
+    @Override
+    public Object getBranch() {
+        return branchDAO.getBranch();
+    }
+
 }

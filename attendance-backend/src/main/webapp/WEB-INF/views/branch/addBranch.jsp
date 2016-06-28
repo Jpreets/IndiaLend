@@ -38,7 +38,7 @@
                 </div>
                 <br>
 
-                <form role="form" action="save">
+                <form role="form" action="save" method="POST">
                     <div class="col-md-6 form-group">
                         <label for="textbox1">Name</label>
                         <input class="form-control" id="textbox1" type="text" name="name" value="<c:out value="${branch.name}"/>"/>
@@ -58,6 +58,8 @@
                     </div>
                     <span class="clearfix"/>
                     <div class="col-md-3 form-group">
+                         <input type="hidden" 
+                               name="${_csrf.parameterName}" value="${_csrf.token}" />
                          <input  type="hidden"  name="branchId"  value="<c:out value="${branch == null ?0:branch.branchId}"/>"/>
                         <button type="submit" class="btn btn-default">Submit</button>
                         <a  href="list" class="btn btn-default">Cancel</a>

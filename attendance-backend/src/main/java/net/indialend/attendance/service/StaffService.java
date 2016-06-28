@@ -5,6 +5,7 @@
  */
 package net.indialend.attendance.service;
 
+import java.util.List;
 import net.indialend.attendance.bean.Attendence;
 import net.indialend.attendance.bean.Staff;
 
@@ -18,8 +19,8 @@ public interface StaffService {
 
     public Staff getStaff(long staffId);
 
-    public boolean saveAttendence(Attendence attendence);
+    public List<Staff> getStaff(int offset, int limit);
 
-    public Staff getAttendence(long attendenceId);
+    public boolean deleteStaff(long staffId);
 
 }

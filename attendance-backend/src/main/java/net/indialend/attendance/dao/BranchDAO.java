@@ -25,4 +25,6 @@ public interface BranchDAO {
 
     public void delete(Branch branch);
 
+    public Object getBranch();
+
 }
