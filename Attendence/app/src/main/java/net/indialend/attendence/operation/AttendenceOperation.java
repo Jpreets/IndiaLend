@@ -1,6 +1,7 @@
 package net.indialend.attendence.operation;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -11,8 +12,10 @@ import android.widget.Toast;
 
 import net.indialend.attendence.R;
 import net.indialend.attendence.activity.MainActivity;
+import net.indialend.attendence.bean.Attendence;
 import net.indialend.attendence.bean.User;
 import net.indialend.attendence.dao.DatabaseHandler;
+import net.indialend.attendence.fragment.MapsFragment;
 
 import org.json.JSONObject;
 
@@ -27,15 +30,17 @@ import java.net.URLConnection;
  * Created by jaspreetsingh on 5/23/16.
  */
 public class AttendenceOperation extends AsyncTask<String, Void, Void> {
-    User user ;
+    Attendence attendence ;
     String mode;
     Activity activity;
+    MapsFragment fragment;
     AlphaAnimation inAnimation;
     AlphaAnimation outAnimation;
 
-   public AttendenceOperation(Activity activity, User user, String mode){
-       this.activity =activity;
-      this.user=user;
+   public AttendenceOperation(MapsFragment fragment, Attendence attendence, String mode){
+       this.activity =fragment.getActivity();
+       this.fragment =  fragment;
+      this.attendence=attendence;
        this.mode =mode;
     }
 
@@ -59,20 +64,23 @@ public class AttendenceOperation extends AsyncTask<String, Void, Void> {
         progressBarHolder.setAnimation(outAnimation);
         progressBarHolder.setVisibility(View.GONE);
 
-        if(user.getUserId() ==0) {
+        if(attendence.getAttendenceId() == 0) {
 
-            Toast.makeText(activity, "Invalid Credentials", Toast.LENGTH_SHORT);
+            Toast.makeText(activity, "Some network issue", Toast.LENGTH_SHORT);
             return;
         }
-        DatabaseHandler db = new DatabaseHandler(activity);
 
-        db.addUser(user);
+        if(mode.equals("Check In")){
+            DatabaseHandler db = new DatabaseHandler(activity);
 
+            User user =  db.getUser();
+            user.setAttendenceId(Long.toString(attendence.getAttendenceId()));
+            db.addUser(user);
+            fragment.doCheckIn();
+        }else{
+            fragment.doCheckOut();
+        }
 
-
-        Intent mapActivityIntent = new Intent(activity, MainActivity.class);
-        activity.startActivity(mapActivityIntent);
-        activity.finish();
 
     }
 
@@ -85,7 +93,7 @@ public class AttendenceOperation extends AsyncTask<String, Void, Void> {
         try
         {
             // Defined URL  where to send data
-            URL url = new URL("http://jazzkart-jazzkart.rhcloud.com/indialend/signIn");
+            URL url = new URL("http://jazzkart-jazzkart.rhcloud.com/attendence-backend/staff/attendence");
 
             // Send POST data request
 
@@ -94,7 +102,7 @@ public class AttendenceOperation extends AsyncTask<String, Void, Void> {
             conn.setRequestMethod("POST");
             conn.setDoOutput(true);
 
-            String data = this.user.getParamData();
+            String data = this.attendence.getParamData();
             Log.d("OUTPUT:",data);
             OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
             wr.write( data );
@@ -118,14 +126,10 @@ public class AttendenceOperation extends AsyncTask<String, Void, Void> {
             Log.v("OUTPU:",Content);
 
             JSONObject jsonObject =  new JSONObject(Content);
-            long id =  jsonObject.getLong("user_id");
+            long id =  jsonObject.getLong("attendenceId");
             if(id != 0){
-                user.setUserId(id);
-                user.setName(jsonObject.getString("name"));
-                user.setPassword(jsonObject.getString("password"));
-                user.setGender(jsonObject.getString("gender"));
-                user.setEmail(jsonObject.getString("email"));
-                user.setPhone(jsonObject.getString("phone"));
+
+                attendence.setAttendenceId(id);
             }
         }
         catch(Exception ex)

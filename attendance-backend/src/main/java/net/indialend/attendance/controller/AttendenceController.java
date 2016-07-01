@@ -11,6 +11,7 @@ import java.util.List;
 import net.indialend.attendance.bean.Attendence;
 import net.indialend.attendance.bean.Branch;
 import net.indialend.attendance.service.AttendenceService;
+import net.indialend.attendance.service.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,15 +31,24 @@ public class AttendenceController {
     @Autowired
     private AttendenceService attendenceService;
 
+    @Autowired
+    private StaffService staffService;
+
     @RequestMapping("/")
     @ResponseBody
-    public boolean saveBranch(Attendence attendence) {
-        return attendenceService.saveAttendence(attendence);
+    public long saveBranch(Attendence attendence, long staffId) {
+
+        if (staffId > 0) {
+            attendence.setStaff(staffService.getStaff(staffId));
+            attendenceService.saveAttendence(attendence);
+            return attendence.getAttendenceId();
+        }
+        return 0;
     }
 
     @RequestMapping("/list")
     public ModelAndView staffList(@RequestParam(defaultValue = "DAY", required = true) long staffId,
-            @RequestParam(defaultValue = "DAY", required = false) String type,
+            @RequestParam(defaultValue = "MONTH", required = false) String type,
             @RequestParam(required = false) Date fromDate) {
         ModelAndView view = new ModelAndView("attendence/attendenceList");
 

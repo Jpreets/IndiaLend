@@ -9,7 +9,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import net.indialend.attendence.R;
-import net.indialend.attendence.activity.MainActivity;
 import net.indialend.attendence.bean.User;
 import net.indialend.attendence.dao.DatabaseHandler;
 import net.indialend.attendence.operation.LoginOperation;
@@ -46,12 +45,12 @@ public class LoginActivity extends AppCompatActivity {
 
     public void signIn(View v) throws JSONException {
 
-        String phoneEmail = ((EditText) findViewById(R.id.phoneEmail) ).getText().toString();
+        String staffId = ((EditText) findViewById(R.id.staffId) ).getText().toString();
 
         String password =((EditText) findViewById(R.id.password)).getText().toString();
 
 
-        if(phoneEmail == null  ||  phoneEmail.trim().isEmpty()
+        if(staffId == null  ||  staffId.trim().isEmpty()
                 || password == null ||password.trim().isEmpty()){
             Toast.makeText(this, "Every field is mandatory" , Toast.LENGTH_SHORT );
             return;
@@ -59,8 +58,8 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         User user =  new User();
-        user.setPhone(phoneEmail);
         user.setPassword(password);
+        user.setStaffId(staffId);
 
 
         new LoginOperation(this,user).execute();

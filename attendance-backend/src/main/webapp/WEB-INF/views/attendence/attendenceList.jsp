@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <html>
 
     <head>
@@ -20,17 +22,37 @@
 
     <div class="container">
 
-               <jsp:include page="../navigation.jsp"/>
+        <jsp:include page="../navigation.jsp"/>
 
         <div class="generic-container">
             <div class="panel panel-default">
                 <!-- Default panel contents -->
                 <div class="panel-heading">
-                    <span class="lead">Staff Attendence</span><br>
+                    <span class="lead">Last 30 Days Attendence of ${staff.name}</span><br>
 
-                   
+
                 </div>
-              
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Check IN</th>
+                            <th>Check OUT</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach items="${branchList}" var="branch">
+                            <tr>
+                                <td><fmt:formatDate type="date" value="${attendence.checkIn}" /> </td>
+                                <td><fmt:formatDate type="time" value="${attendence.checkIn}" /> </br> 
+                                    (${attendence.chkInLong}: ${attendence.chkInLat})</td>
+                                <td><fmt:formatDate type="time" value="${attendence.checkOut}" />  <br> 
+                                    (${attendence.chkOutLong}: ${attendence.chkOutLat})</td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
+
             </div>
         </div>
     </div>

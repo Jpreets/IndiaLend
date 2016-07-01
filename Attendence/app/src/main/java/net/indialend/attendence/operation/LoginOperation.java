@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.FrameLayout;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import net.indialend.attendence.R;
@@ -20,11 +19,9 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLEncoder;
 
 /**
  * Created by jaspreetsingh on 5/23/16.
@@ -60,7 +57,7 @@ public class LoginOperation extends AsyncTask<String, Void, Void> {
         progressBarHolder.setAnimation(outAnimation);
         progressBarHolder.setVisibility(View.GONE);
 
-        if(user.getUserId() ==0) {
+        if("0".equals(user.getStaffId())) {
 
             Toast.makeText(activity, "Invalid Credentials", Toast.LENGTH_SHORT);
             return;
@@ -86,10 +83,9 @@ public class LoginOperation extends AsyncTask<String, Void, Void> {
         try
         {
             // Defined URL  where to send data
-            URL url = new URL("http://jazzkart-jazzkart.rhcloud.com/indialend/signIn");
+            URL url = new URL("http://jazzkart-jazzkart.rhcloud.com/attendence-backend/staff/login");
 
             // Send POST data request
-
             URLConnection urlc = url.openConnection();
             HttpURLConnection conn  = (HttpURLConnection) urlc;
             conn.setRequestMethod("POST");
@@ -102,7 +98,6 @@ public class LoginOperation extends AsyncTask<String, Void, Void> {
             wr.flush();
 
             // Get the server response
-
             reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             StringBuilder sb = new StringBuilder();
             String line = null;
@@ -121,12 +116,10 @@ public class LoginOperation extends AsyncTask<String, Void, Void> {
             JSONObject jsonObject =  new JSONObject(Content);
             long id =  jsonObject.getLong("user_id");
             if(id != 0){
-                user.setUserId(id);
-                user.setName(jsonObject.getString("name"));
-                user.setPassword(jsonObject.getString("password"));
-                user.setGender(jsonObject.getString("gender"));
-                user.setEmail(jsonObject.getString("email"));
-                user.setPhone(jsonObject.getString("phone"));
+
+                user.setStaffId(Long.toString(id));
+                user.setAttendenceId("0");
+                user.setGcmToken("");
             }
         }
         catch(Exception ex)

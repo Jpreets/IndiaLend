@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -49,6 +50,7 @@ public class MapsFragment extends  android.support.v4.app.Fragment
     long timeSwapBuff = 0L;
     long updatedTime = 0L;
 
+    LatLng currentlatLng;
 
     private Button startButton;
     private TextView timerValue;
@@ -101,6 +103,31 @@ public class MapsFragment extends  android.support.v4.app.Fragment
 
     }
 
+    public  void doCheckOut(){
+        startButton.setText("Check In");
+        endTime = SystemClock.uptimeMillis();
+
+        timeSwapBuff += timeInMilliseconds;
+        customHandler.removeCallbacks(updateTimerThread);
+    }
+
+    public void doCheckIn(){
+        startButton.setText("Check Out");
+        startTime = SystemClock.uptimeMillis();
+
+        customHandler.postDelayed(updateTimerThread, 0);
+    }
+
+
+    public void OnButtonClick(View view){
+        String  label =  startButton.getText().toString();
+        if(currentlatLng != null) {
+            new AttendenceOperation(this, null, label);
+        }else {
+            Toast.makeText(this.getActivity(), "Location not fetched", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -110,30 +137,32 @@ public class MapsFragment extends  android.support.v4.app.Fragment
 
         startButton = (Button) rootView.findViewById(R.id.checkin);
 
-        startButton.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View view) {
-
-                String  label =  startButton.getText().toString();
-                if("CHECK IN".equals(label.toUpperCase())){
-                    startButton.setText("Check Out");
-                    startTime = SystemClock.uptimeMillis();
-
-                    customHandler.postDelayed(updateTimerThread, 0);
-                    new AttendenceOperation(getActivity(),null,"checkin");
-                }
-
-                if("CHECK OUT".equals(label.toUpperCase())){
-                    startButton.setText("Check In");
-                    endTime = SystemClock.uptimeMillis();
-
-                    timeSwapBuff += timeInMilliseconds;
-                    customHandler.removeCallbacks(updateTimerThread);
-                    new AttendenceOperation(getActivity(),null,"checkout");
-                }
-
-            }
-        });
+//        startButton.setOnClickListener(new View.OnClickListener() {
+//
+//            public void onClick(View view) {
+//
+//                String  label =  startButton.getText().toString();
+//                new AttendenceOperation(this,null,"checkin");
+//
+//                if("Check In".equals(label)){
+//                    startButton.setText("Check Out");
+//                    startTime = SystemClock.uptimeMillis();
+//
+//                    customHandler.postDelayed(updateTimerThread, 0);
+//                    new AttendenceOperation(getActivity(),null,"checkin");
+//                }
+//
+//                if("Check Out".equals(label)){
+//                    startButton.setText("Check In");
+//                    endTime = SystemClock.uptimeMillis();
+//
+//                    timeSwapBuff += timeInMilliseconds;
+//                    customHandler.removeCallbacks(updateTimerThread);
+//                    new AttendenceOperation(getActivity(),null,"checkout");
+//                }
+//
+//            }
+//        });
 
 
 
@@ -165,9 +194,9 @@ public class MapsFragment extends  android.support.v4.app.Fragment
 //    }
 
     private void gotoLocation(double latitude, double longitude) {
-        LatLng latLng = new LatLng(latitude, longitude);
+         currentlatLng = new LatLng(latitude, longitude);
 
-        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(latLng, 15);
+        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(currentlatLng, 15);
         mMap.moveCamera(update);
 
 
