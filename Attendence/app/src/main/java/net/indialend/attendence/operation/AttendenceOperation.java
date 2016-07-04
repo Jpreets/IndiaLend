@@ -16,7 +16,7 @@ import net.indialend.attendence.activity.MainActivity;
 import net.indialend.attendence.bean.Attendence;
 import net.indialend.attendence.bean.User;
 import net.indialend.attendence.dao.DatabaseHandler;
-import net.indialend.attendence.fragment.MapsFragment;
+//import net.indialend.attendence.fragment.MapsFragment;
 
 import org.json.JSONObject;
 
@@ -33,14 +33,13 @@ import java.net.URLConnection;
 public class AttendenceOperation extends AsyncTask<String, Void, Void> {
     Attendence attendence ;
     String mode;
-    Activity activity;
-    MapsFragment fragment;
+    MainActivity activity;
     AlphaAnimation inAnimation;
     AlphaAnimation outAnimation;
 
-   public AttendenceOperation(MapsFragment fragment, Attendence attendence, String mode){
-       this.activity =fragment.getActivity();
-       this.fragment =  fragment;
+   public AttendenceOperation(MainActivity activity, Attendence attendence, String mode){
+       this.activity =activity;
+       ;
       this.attendence=attendence;
        this.mode =mode;
     }
@@ -77,9 +76,9 @@ public class AttendenceOperation extends AsyncTask<String, Void, Void> {
             User user =  db.getUser();
             user.setAttendenceId(Long.toString(attendence.getAttendenceId()));
             db.addUser(user);
-            fragment.doCheckIn();
+            activity.doCheckIn();
         }else{
-            fragment.doCheckOut();
+            activity.doCheckOut();
         }
 
 

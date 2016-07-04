@@ -42,7 +42,7 @@ public class User {
     }
 
     public String getParamData(){
-        return "staffId="+staffId+"&attendenceId="+attendenceId+"&gcmToken="+gcmToken;
+        return "staffId="+staffId+"&attendenceId="+attendenceId+"&gcmToken="+gcmToken+"&password="+password;
 
     }
 }

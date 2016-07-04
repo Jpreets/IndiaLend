@@ -1,6 +1,14 @@
 package net.indialend.attendence.activity;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.SystemClock;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.design.widget.NavigationView;
@@ -9,106 +17,178 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import net.indialend.attendence.fragment.MapsFragment;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+
 import net.indialend.attendence.fragment.ProfileFragment;
 import net.indialend.attendence.R;
+import net.indialend.attendence.operation.AttendenceOperation;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends CommonActivity
+        implements LocationListener,OnMapReadyCallback {
+
+    private GoogleMap mMap;
+    Marker marker;
+    private static final int ERROR_DIALOG_REQUEST = 9001;
+
+
+    private Handler customHandler = new Handler();
+    private long startTime = 0L;
+    private long endTime = 0L;
+
+
+    long timeInMilliseconds = 0L;
+    long timeSwapBuff = 0L;
+    long updatedTime = 0L;
+
+    LatLng currentlatLng;
+
+    private Button startButton;
+    private TextView timerValue;
+
+    public  void doCheckOut(){
+        startButton.setText("Check In");
+        endTime = SystemClock.uptimeMillis();
+
+        timeSwapBuff += timeInMilliseconds;
+        customHandler.removeCallbacks(updateTimerThread);
+    }
+
+    public void doCheckIn(){
+        startButton.setText("Check Out");
+        startTime = SystemClock.uptimeMillis();
+
+        customHandler.postDelayed(updateTimerThread, 0);
+    }
+
+
+    private Runnable updateTimerThread = new Runnable() {
+
+        public void run() {
+
+            timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
+
+            updatedTime = timeSwapBuff + timeInMilliseconds;
+
+            int secs = (int) (updatedTime / 1000);
+            int mins = secs / 60;
+            secs = secs % 60;
+            int milliseconds = (int) (updatedTime % 1000);
+            timerValue.setText("" + mins + ":"
+                    + String.format("%02d", secs) + ":"
+                    + String.format("%03d", milliseconds));
+            customHandler.postDelayed(this, 0);
+        }
+
+    };
+
+
+    public void onCHKClick(View v) {
+        String  label =  startButton.getText().toString();
+        if(currentlatLng != null) {
+            new AttendenceOperation(this, null, label);
+        }else {
+            Toast.makeText(this, "Location not fetched", Toast.LENGTH_SHORT).show();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setupDrawer();
+        timerValue = (TextView) findViewById(R.id.timerValue);
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+        startButton = (Button) findViewById(R.id.checkin);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
 
-//
-        MapsFragment fragment  =  new MapsFragment();
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+        SupportMapFragment supportMapFragment =
+                (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+
+        supportMapFragment.getMapAsync(this);
 
     }
 
     @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            return ;
         }
+        mMap.setMyLocationEnabled(true);
+        mMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
+            @Override
+            public void onMyLocationChange(Location location) {
+                gotoLocation(location.getLatitude(), location.getLongitude());
+            }
+        });
+
+
+
+        Log.d("MAP::" , "Location1");
+
+    }
+
+
+
+
+    private void gotoLocation(double latitude, double longitude) {
+        currentlatLng = new LatLng(latitude, longitude);
+
+        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(currentlatLng, 15);
+        mMap.moveCamera(update);
+
+
+    }
+
+
+    @Override
+    public void onLocationChanged(Location location) {
+        double latitude = location.getLatitude();
+        double longitude = location.getLongitude();
+
+        gotoLocation(latitude, longitude);
+
+    }
+
+
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+    public void onProviderEnabled(String provider) {
+
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+    public void onProviderDisabled(String provider) {
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
 
-        Fragment fragment = null ;
-        if(id == R.id.home){
-             fragment  =  new MapsFragment();
-
-        } else if (id == R.id.profile) {
-             fragment  =  new ProfileFragment();
-
-        } else if (id == R.id.leave) {
-
-        } else if (id == R.id.notification) {
-
-
-        }
-
-        if(fragment != null) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
-        }
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
 }

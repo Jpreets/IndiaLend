@@ -58,7 +58,7 @@ public class LoginOperation extends AsyncTask<String, Void, Void> {
         progressBarHolder.setAnimation(outAnimation);
         progressBarHolder.setVisibility(View.GONE);
 
-        if("0".equals(user.getStaffId())) {
+        if(user == null) {
 
             Toast.makeText(activity, "Invalid Credentials", Toast.LENGTH_SHORT);
             return;
@@ -93,6 +93,7 @@ public class LoginOperation extends AsyncTask<String, Void, Void> {
             conn.setDoOutput(true);
 
             String data = this.user.getParamData();
+            user = null;
             Log.d("OUTPUT:",data);
             OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
             wr.write( data );
@@ -117,6 +118,7 @@ public class LoginOperation extends AsyncTask<String, Void, Void> {
             long id = Long.valueOf(Content);
             if(id != 0){
 
+                user = new User();
                 user.setStaffId(Long.toString(id));
                 user.setAttendenceId("0");
                 user.setGcmToken("");

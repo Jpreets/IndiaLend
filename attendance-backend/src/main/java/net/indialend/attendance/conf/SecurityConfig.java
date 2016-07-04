@@ -22,10 +22,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .withUser("indialend").password("123456").roles("USER");
     }
 
+    
+  
     //.csrf() is optional, enabled by default, if using WebSecurityConfigurerAdapter constructor
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
+        
         http.authorizeRequests()
                 .antMatchers("/branch/**").access("hasRole('ROLE_USER')")
                 .antMatchers("/staff/**").access("hasRole('ROLE_USER')")
@@ -35,6 +38,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout().logoutUrl("/logout").logoutSuccessUrl("/index?logout")
                 .and()
-                .csrf();
+                .csrf().disable();
     }
 }

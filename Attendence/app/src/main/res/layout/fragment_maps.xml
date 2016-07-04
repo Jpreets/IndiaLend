@@ -39,7 +39,7 @@ android:layout_gravity="center_horizontal"
             android:layout_height="wrap_content"
             android:text="Check In"
             android:id="@+id/checkin"
-            android:onClick="OnButtonClick" />
+            android:onClick="onCHKClick" />
 
 
 

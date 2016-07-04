@@ -10,11 +10,13 @@ import java.util.Date;
 import java.util.List;
 import net.indialend.attendance.bean.Attendence;
 import net.indialend.attendance.bean.Branch;
+import net.indialend.attendance.bean.Staff;
 import net.indialend.attendance.service.AttendenceService;
 import net.indialend.attendance.service.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -34,14 +36,31 @@ public class AttendenceController {
     @Autowired
     private StaffService staffService;
 
-    @RequestMapping("/")
+    @RequestMapping("/save")
     @ResponseBody
-    public long saveBranch(Attendence attendence, long staffId) {
+    public long saveAttendence(Attendence attendence, long staffId) {
+        System.out.println("saveAttendence");
 
         if (staffId > 0) {
             attendence.setStaff(staffService.getStaff(staffId));
             attendenceService.saveAttendence(attendence);
             return attendence.getAttendenceId();
+        }
+        return 0;
+    }
+    
+     @RequestMapping(value = {"/login"}, method = RequestMethod.POST)
+    @ResponseBody
+    public long staffLogin(long staffId, String password) {
+        System.out.println("login");
+        try {
+            Staff s = staffService.getStaff(staffId);
+            if (s.getPassword().equals(password)) {
+                return s.getStaffId();
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
         return 0;
     }

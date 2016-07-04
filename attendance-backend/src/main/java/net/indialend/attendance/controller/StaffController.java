@@ -71,7 +71,9 @@ public class StaffController {
         
         if (staff.getStaffId() == 0) {
             sendMail = true;
-            staff.setPassword(PasswordUtil.randomPassword());   
+            staff.setPassword("123"
+//                    PasswordUtil.randomPassword()
+                            );   
         }
         
         if (staffService.saveStaff(staff) && sendMail) {
@@ -105,19 +107,6 @@ public class StaffController {
         }
     }
     
-    @RequestMapping(value = {"/login"}, method = RequestMethod.POST)
-    @ResponseBody
-    public long signIn(long staffId, String password) {
-        try {
-            Staff s = staffService.getStaff(staffId);
-            if (s.getPassword().equals(password)) {
-                return s.getStaffId();
-            }
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return 0;
-    }
+   
     
 }
