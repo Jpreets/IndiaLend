@@ -95,7 +95,7 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
             User user = new User();
             user.setStaffId(cursor.getString(0));
             user.setAttendenceId(cursor.getString(1));
-            user.setGcmToken(cursor.getString(4));
+            user.setGcmToken(cursor.getString(2));
 
             db.close();
             return user;

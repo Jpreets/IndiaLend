@@ -33,7 +33,7 @@ import net.indialend.attendence.operation.AttendenceOperation;
 
 
 public class MapsFragment extends  android.support.v4.app.Fragment
-        implements LocationListener,OnMapReadyCallback {
+        implements LocationListener,OnMapReadyCallback, View.OnClickListener {
 
 
     private GoogleMap mMap;
@@ -119,7 +119,7 @@ public class MapsFragment extends  android.support.v4.app.Fragment
     }
 
 
-    public void OnButtonClick(View view){
+    public void onClick(View view){
         String  label =  startButton.getText().toString();
         if(currentlatLng != null) {
             new AttendenceOperation(this, null, label);
@@ -137,8 +137,7 @@ public class MapsFragment extends  android.support.v4.app.Fragment
 
         startButton = (Button) rootView.findViewById(R.id.checkin);
 
-//        startButton.setOnClickListener(new View.OnClickListener() {
-//
+        startButton.setOnClickListener(this);
 //            public void onClick(View view) {
 //
 //                String  label =  startButton.getText().toString();

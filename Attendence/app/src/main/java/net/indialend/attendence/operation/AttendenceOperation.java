@@ -10,6 +10,7 @@ import android.view.animation.AlphaAnimation;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import net.indialend.attendence.Constant;
 import net.indialend.attendence.R;
 import net.indialend.attendence.activity.MainActivity;
 import net.indialend.attendence.bean.Attendence;
@@ -93,7 +94,7 @@ public class AttendenceOperation extends AsyncTask<String, Void, Void> {
         try
         {
             // Defined URL  where to send data
-            URL url = new URL("http://jazzkart-jazzkart.rhcloud.com/attendence-backend/staff/attendence");
+            URL url = new URL(Constant.attendenceUrl);
 
             // Send POST data request
 
@@ -125,8 +126,8 @@ public class AttendenceOperation extends AsyncTask<String, Void, Void> {
            String Content = sb.toString();
             Log.v("OUTPU:",Content);
 
-            JSONObject jsonObject =  new JSONObject(Content);
-            long id =  jsonObject.getLong("attendenceId");
+//            JSONObject jsonObject =  new JSONObject(Content);
+            long id =  Long.valueOf(Content);
             if(id != 0){
 
                 attendence.setAttendenceId(id);

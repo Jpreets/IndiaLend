@@ -16,7 +16,9 @@ import net.indialend.attendance.util.PasswordUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -101,6 +103,21 @@ public class StaffController {
         } catch (InterruptedException ex) {
             Logger.getLogger(StaffController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    @RequestMapping(value = {"/login"}, method = RequestMethod.POST)
+    @ResponseBody
+    public long signIn(long staffId, String password) {
+        try {
+            Staff s = staffService.getStaff(staffId);
+            if (s.getPassword().equals(password)) {
+                return s.getStaffId();
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return 0;
     }
     
 }
