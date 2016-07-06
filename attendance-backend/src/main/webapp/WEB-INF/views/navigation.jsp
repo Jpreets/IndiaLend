@@ -24,11 +24,12 @@
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">Attendence</a>
+            <a class="navbar-brand" href="#">Attendance</a>
         </div>
         <ul class="nav navbar-nav">
             <li class="${pageContext.request.requestURI.contains('branch')?"active":""}"><a href="../branch/list">Branch</a></li>
             <li class="${pageContext.request.requestURI.contains('staff')?"active":""}"><a href="../staff/list">Staff</a></li>
+            <li class="${pageContext.request.requestURI.contains('staff')?"active":""}"><a target="_blank" href="http://jazzkart-jazzkart.rhcloud.com/mobileapp/attendance.apk">Mobile App</a></li>
 
         </ul>
         <a class="navbar-brand pull-right" href="javascript:formSubmit()">Logout</a>

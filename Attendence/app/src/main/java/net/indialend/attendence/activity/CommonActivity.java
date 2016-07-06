@@ -13,17 +13,22 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import net.indialend.attendence.fragment.ProfileFragment;
 import net.indialend.attendence.R;
+import net.indialend.attendence.dao.DatabaseHandler;
 
 public class CommonActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    DatabaseHandler db ;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
     }
+
+
 
     public void setupDrawer(){
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -37,16 +42,19 @@ public class CommonActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        db = new DatabaseHandler(this);
+
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        if (drawer.isDrawerOpen(GravityCompat.START)) {
+//            drawer.closeDrawer(GravityCompat.START);
+//        } else {
+//            super.onBackPressed();
+//        }
     }
 
     @Override
@@ -65,6 +73,17 @@ public class CommonActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            return true;
+        }
+
+        if (id == R.id.action_logout) {
+
+            db.deleteUser();
+
+            Intent mapActivityIntent  =  new Intent(this, LoginActivity.class);
+            startActivity(mapActivityIntent);
+            finish();
+
             return true;
         }
 

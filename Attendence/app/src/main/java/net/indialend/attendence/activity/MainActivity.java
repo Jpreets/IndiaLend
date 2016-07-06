@@ -36,7 +36,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 
 import net.indialend.attendence.bean.Attendence;
-import net.indialend.attendence.fragment.ProfileFragment;
 import net.indialend.attendence.R;
 import net.indialend.attendence.operation.AttendenceOperation;
 
