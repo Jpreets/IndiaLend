@@ -29,8 +29,9 @@ public class AttendenceDAOImpl extends AbstractDao<Long, Attendence> implements 
         Criteria crit = createEntityCriteria();
         crit.add(Restrictions.eq("staff.staffId", staffId));
         crit.add(Restrictions.ge("checkIn", fromDate));
-        crit.add(Restrictions.le("checkIn", toDate));
+        crit.add(Restrictions.le("checkIn", new Date()));
 
+        
         crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);//To avoid duplicates.
         return (List<Attendence>) crit.list();
 

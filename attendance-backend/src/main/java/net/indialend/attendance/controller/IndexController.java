@@ -36,6 +36,7 @@ public class IndexController {
             model.addObject("msg", "You've been logged out successfully.");
         }
         
+        
         if (principal != null) {
             model.setView(new RedirectView("branch/list"));
         }

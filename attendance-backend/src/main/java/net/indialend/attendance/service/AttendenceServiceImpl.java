@@ -39,6 +39,9 @@ public class AttendenceServiceImpl implements AttendenceService {
             attendence = a1;
         } else {
             attendence.setCheckIn(new Date());
+            attendence.setChkOutLat(0);
+            attendence.setChkOutLong(0);
+            
         }
         attendenceDAO.persist(attendence);
         return attendence.getAttendenceId() > 0;

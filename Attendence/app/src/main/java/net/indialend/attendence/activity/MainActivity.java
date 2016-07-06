@@ -35,6 +35,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 
+import net.indialend.attendence.bean.Attendence;
 import net.indialend.attendence.fragment.ProfileFragment;
 import net.indialend.attendence.R;
 import net.indialend.attendence.operation.AttendenceOperation;
@@ -67,6 +68,7 @@ public class MainActivity extends CommonActivity
 
         timeSwapBuff += timeInMilliseconds;
         customHandler.removeCallbacks(updateTimerThread);
+        timerValue.setText("0:0:0");
     }
 
     public void doCheckIn(){
@@ -85,13 +87,20 @@ public class MainActivity extends CommonActivity
 
             updatedTime = timeSwapBuff + timeInMilliseconds;
 
-            int secs = (int) (updatedTime / 1000);
-            int mins = secs / 60;
-            secs = secs % 60;
-            int milliseconds = (int) (updatedTime % 1000);
-            timerValue.setText("" + mins + ":"
-                    + String.format("%02d", secs) + ":"
-                    + String.format("%03d", milliseconds));
+            long s = updatedTime % 60;
+            long m = (updatedTime / 60) % 60;
+            long h = (updatedTime / (60 * 60)) % 24;
+
+
+//            int secs = (int) (updatedTime / 1000);
+//            int mins = secs / 60;
+//            int hour = mins / 60;
+//            secs = secs % 60;
+//            int milliseconds = (int) (updatedTime % 1000);
+            timerValue.setText(""
+                    + String.format("%02d", h) + ":"
+                    + String.format("%02d", m) + ":"
+                    + String.format("%03d", s));
             customHandler.postDelayed(this, 0);
         }
 
@@ -100,8 +109,16 @@ public class MainActivity extends CommonActivity
 
     public void onCHKClick(View v) {
         String  label =  startButton.getText().toString();
+        Log.d("MAP::" , label);
+        Log.d("MAP::" , currentlatLng.toString());
+
         if(currentlatLng != null) {
-            new AttendenceOperation(this, null, label);
+            Attendence attendence =  new Attendence();
+            attendence.setChkInLat(currentlatLng.latitude);
+            attendence.setChkOutLat(currentlatLng.latitude);
+            attendence.setChkInLong(currentlatLng.longitude);
+            attendence.setChkOutLong(currentlatLng.longitude);
+            new AttendenceOperation(this, attendence, label).execute();
         }else {
             Toast.makeText(this, "Location not fetched", Toast.LENGTH_SHORT).show();
         }

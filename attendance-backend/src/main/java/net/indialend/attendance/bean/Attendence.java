@@ -43,7 +43,7 @@ public class Attendence {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "checkIn", nullable = true)
-    private java.util.Date checkIn = new Date();
+    private java.util.Date checkIn ;
 
     @Column(name = "chk_out_long", nullable = true)
     private double chkOutLong;
@@ -53,7 +53,7 @@ public class Attendence {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "checkOut", nullable = true)
-    private java.util.Date checkOut = new Date();
+    private java.util.Date checkOut ;
 
     public long getAttendenceId() {
         return attendenceId;

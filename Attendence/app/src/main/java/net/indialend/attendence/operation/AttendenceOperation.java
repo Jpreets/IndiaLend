@@ -36,12 +36,20 @@ public class AttendenceOperation extends AsyncTask<String, Void, Void> {
     MainActivity activity;
     AlphaAnimation inAnimation;
     AlphaAnimation outAnimation;
+    DatabaseHandler db ;
+    User user;
 
    public AttendenceOperation(MainActivity activity, Attendence attendence, String mode){
        this.activity =activity;
-       ;
       this.attendence=attendence;
        this.mode =mode;
+       db = new DatabaseHandler(activity);
+       user =  db.getUser();
+       this.attendence.setStaffId(Long.valueOf(user.getStaffId()));
+       if(mode.equals("Check Out")){
+           this.attendence.setAttendenceId(Long.valueOf(user.getAttendenceId()));
+
+       }
     }
 
 
@@ -52,6 +60,7 @@ public class AttendenceOperation extends AsyncTask<String, Void, Void> {
         inAnimation.setDuration(200);
         progressBarHolder.setAnimation(inAnimation);
         progressBarHolder.setVisibility(View.VISIBLE);
+
 
     }
 
@@ -71,9 +80,7 @@ public class AttendenceOperation extends AsyncTask<String, Void, Void> {
         }
 
         if(mode.equals("Check In")){
-            DatabaseHandler db = new DatabaseHandler(activity);
 
-            User user =  db.getUser();
             user.setAttendenceId(Long.toString(attendence.getAttendenceId()));
             db.addUser(user);
             activity.doCheckIn();
@@ -123,7 +130,7 @@ public class AttendenceOperation extends AsyncTask<String, Void, Void> {
 
             // Append Server Response To Content String
            String Content = sb.toString();
-            Log.v("OUTPU:",Content);
+            Log.v("OUTPUT:",Content);
 
 //            JSONObject jsonObject =  new JSONObject(Content);
             long id =  Long.valueOf(Content);

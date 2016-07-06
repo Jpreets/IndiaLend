@@ -82,7 +82,7 @@ public class CommonActivity extends AppCompatActivity
             mapActivityIntent  =  new Intent(this, MainActivity.class);
 
         } else if (id == R.id.profile) {
-            mapActivityIntent  =  new Intent(this, ProfileFragment.class);
+            mapActivityIntent  =  new Intent(this, ProfileActivity.class);
 
         } else if (id == R.id.leave) {
 

@@ -89,11 +89,17 @@ public class AttendenceController {
             case "YEAR":
                 attendence = attendenceService.getYearAttendence(staffId, fromDate);
                 break;
-            default:
-                break;
+            
         }
         view.addObject("attendenceList", attendence);
 
+        if(attendence == null || attendence.size()==0){
+             view.addObject("staff", this.staffService.getStaff(staffId));
+
+        }else{
+            view.addObject("staff", attendence.get(0).getStaff());
+        }
+        
         return view;
     }
 

@@ -97,10 +97,8 @@ public class Attendence {
                 +"&attendenceId="+attendenceId
                 +"&chkInLong="+chkInLong
                 +"&chkInLat="+chkInLat
-                +"&checkIn="+checkIn
                 +"&chkOutLong="+chkOutLong
-                +"&chkOutLat="+chkOutLat
-                +"&checkOut="+checkOut;
+                +"&chkOutLat="+chkOutLat;
 
     }
     
