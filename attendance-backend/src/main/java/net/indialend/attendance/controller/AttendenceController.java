@@ -8,10 +8,14 @@ package net.indialend.attendance.controller;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.indialend.attendance.bean.Attendence;
 import net.indialend.attendance.bean.Branch;
 import net.indialend.attendance.bean.Staff;
+import net.indialend.attendance.compnent.Email;
 import net.indialend.attendance.service.AttendenceService;
+import net.indialend.attendance.service.BranchService;
 import net.indialend.attendance.service.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,7 +36,6 @@ public class AttendenceController {
 
     @Autowired
     private AttendenceService attendenceService;
-
     @Autowired
     private StaffService staffService;
 
@@ -48,8 +51,8 @@ public class AttendenceController {
         }
         return 0;
     }
-    
-     @RequestMapping(value = {"/login"}, method = RequestMethod.POST)
+
+    @RequestMapping(value = {"/login"}, method = RequestMethod.POST)
     @ResponseBody
     public long staffLogin(long staffId, String password) {
         System.out.println("login");
@@ -65,8 +68,49 @@ public class AttendenceController {
         return 0;
     }
 
+    @RequestMapping(value = {"/staffDetail"}, method = RequestMethod.POST)
+    @ResponseBody
+    public Staff staffDetail(long staffId) {
+        System.out.println("login");
+        return staffService.getStaff(staffId);
+    }
+
+    @RequestMapping("/updateStaff")
+    @ResponseBody
+    public String saveStaff(Staff staff) {
+       
+        return Boolean.toString(staffService.saveStaff(staff)) ;
+    }
+
+  
+
+    @RequestMapping("/data")
+    @ResponseBody
+    public List<Attendence> attendenceData(
+            @RequestParam(defaultValue = "0", required = true) long staffId,
+            @RequestParam(defaultValue = "MONTH", required = false) String type,
+            @RequestParam(required = false) Date fromDate) {
+
+        if (fromDate == null) {
+            fromDate = new Date();
+        }
+
+        switch (type) {
+            case "DAY":
+                return attendenceService.getTodayAttendence(staffId, fromDate);
+            case "WEEK":
+                return attendenceService.getWeekAttendence(staffId, fromDate);
+            case "MONTH":
+                return attendenceService.getMonthAttendence(staffId, fromDate);
+            case "YEAR":
+                return attendenceService.getYearAttendence(staffId, fromDate);
+        }
+
+        return null;
+    }
+
     @RequestMapping("/list")
-    public ModelAndView staffList(@RequestParam(defaultValue = "DAY", required = true) long staffId,
+    public ModelAndView attendanceList(@RequestParam(defaultValue = "0", required = true) long staffId,
             @RequestParam(defaultValue = "MONTH", required = false) String type,
             @RequestParam(required = false) Date fromDate) {
         ModelAndView view = new ModelAndView("attendence/attendenceList");
@@ -89,17 +133,17 @@ public class AttendenceController {
             case "YEAR":
                 attendence = attendenceService.getYearAttendence(staffId, fromDate);
                 break;
-            
+
         }
         view.addObject("attendenceList", attendence);
 
-        if(attendence == null || attendence.size()==0){
-             view.addObject("staff", this.staffService.getStaff(staffId));
+        if (attendence == null || attendence.size() == 0) {
+            view.addObject("staff", this.staffService.getStaff(staffId));
 
-        }else{
+        } else {
             view.addObject("staff", attendence.get(0).getStaff());
         }
-        
+
         return view;
     }
 

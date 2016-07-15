@@ -78,7 +78,7 @@
                                     </td>
                                     <td><fmt:formatDate type="time" value="${attendence.checkOut}" />  <br> 
                                         <a   id="myBtn_chk_out_${attendence.attendenceId}" >
-                                            (${attendence.chkInLong} : ${attendence.chkInLat})</a><br> 
+                                            (${attendence.chkOutLat} : ${attendence.chkOutLong})</a><br> 
                                             <div id="location_chk_out_${attendence.attendenceId}"></div>       
 
                                         <script>
@@ -94,9 +94,9 @@
                                                 type: "get",
                                                 url: "https://maps.googleapis.com/maps/api/geocode/json",
                                                 async: false,
-                                                data: "latlng=${attendence.chkInLat},${attendence.chkInLong}",
+                                                data: "latlng=${attendence.chkOutLat},${attendence.chkOutLong}",
                                                 datatype: "json",
-                                                success: function (data)
+                                                success: function (data)    
                                                 {
                                                    $('#location_chk_out_${attendence.attendenceId}').text(data.results[0].formatted_address);
                                                 }

@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+<RelativeLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1"
-    android:layout_marginTop="60dp">
+    android:layout_below="@+id/toolbar"
+    >
 
     <TextView
-        android:layout_width="93dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Name :"
@@ -76,15 +84,15 @@
         android:orientation="vertical"
         android:id="@+id/gender"
         android:weightSum="1"
-        android:layout_below="@+id/textView4">
+        android:layout_below="@+id/textView4"
+        android:layout_alignParentStart="true">
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Male"
             android:id="@+id/male"
-            android:checked="false"
-            android:onClick="onRadioButtonClicked"/>
+            android:checked="false" />
 
         <RadioButton
             android:layout_width="95dp"
@@ -92,80 +100,170 @@
             android:text="Female"
             android:id="@+id/female"
             android:checked="false"
-            android:layout_weight="0.21"
-            android:onClick="onRadioButtonClicked" />
+            android:layout_weight="0.21" />
+    </RadioGroup>
+
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="DOB"
-            android:id="@+id/textView5"
-            android:layout_weight="0.03"
-            android:layout_below="@+id/email" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="date"
-            android:ems="10"
-            android:id="@+id/editText" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Address"
+            android:text="Current Address :"
             android:id="@+id/textView6"
             android:layout_weight="0.03"
-            android:layout_below="@+id/email" />
+            android:layout_below="@+id/gender" />
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="67dp"
             android:inputType="textMultiLine"
             android:ems="10"
-            android:id="@+id/editText2"
-            android:layout_gravity="center_horizontal" />
+            android:id="@+id/currentAddr"
+            android:layout_gravity="center_horizontal"
+            android:layout_below="@+id/textView6" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Permanent Address :"
+            android:id="@+id/textView7"
+            android:layout_weight="0.03"
+            android:layout_below="@+id/currentAddr" />
 
-    </RadioGroup>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="67dp"
+            android:inputType="textMultiLine"
+            android:ems="10"
+            android:id="@+id/permanentAddr"
+            android:layout_gravity="center_horizontal"
+            android:layout_below="@+id/textView7"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Aadhar Card No. :"
+            android:id="@+id/textView8"
+            android:layout_weight="0.03"
+            android:layout_below="@+id/permanentAddr"
+            android:layout_alignEnd="@+id/textView7"
+            android:layout_alignParentStart="true" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/aadhaarNo"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0.03"
+            android:layout_below="@+id/textView8"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Pan No. :"
+            android:id="@+id/textView9"
+            android:layout_weight="0.03"
+            android:layout_below="@+id/aadhaarNo"
+            />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/panNo"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0.03"
+            android:layout_below="@+id/textView9"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Father Name :"
+            android:id="@+id/textView10"
+            android:layout_weight="0.03"
+            android:layout_below="@+id/panNo"
+            />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/fatherName"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0.03"
+            android:layout_below="@+id/textView10"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Mother Name :"
+            android:id="@+id/textView11"
+            android:layout_weight="0.03"
+            android:layout_below="@+id/fatherName"
+
+            />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/motherName"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0.03"
+            android:layout_below="@+id/textView11"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Blood Group :"
+            android:id="@+id/textView12"
+            android:layout_weight="0.03"
+            android:layout_below="@+id/motherName"
+
+            />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/bloodGroup"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0.03"
+            android:layout_below="@+id/textView12"/>
+
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.40"
-        android:layout_below="@+id/gender">
+        android:layout_below="@+id/bloodGroup">
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sign Up"
+            android:text="Update"
             android:id="@+id/button2"
-            android:onClick="signUp" />
+            android:onClick="updateStaff"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sign In"
+            android:text="Reset"
             android:id="@+id/button3"
-            android:onClick="goToSignIn" />
+            android:onClick="performReset" />
     </LinearLayout>
-    <FrameLayout
-        android:id="@+id/progressBarHolder"
-        android:animateLayoutChanges="true"
-        android:visibility="gone"
-        android:alpha="0.4"
-        android:background="#000000"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ProgressBar
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:indeterminate="true"
-            android:layout_gravity="center" />
-    </FrameLayout>
 
 </RelativeLayout>
+</ScrollView>

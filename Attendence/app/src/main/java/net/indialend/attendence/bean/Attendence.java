@@ -21,11 +21,11 @@ public class Attendence {
 
     private double chkInLong;
     private double chkInLat;
-    private Date checkIn = new Date();
+    private long checkIn;
 
     private double chkOutLong;
     private double chkOutLat;
-    private Date checkOut = new Date();
+    private long checkOut;
 
     public long getStaffId() {
         return staffId;
@@ -60,11 +60,11 @@ public class Attendence {
         this.chkInLat = chkInLat;
     }
 
-    public Date getCheckIn() {
+    public long getCheckIn() {
         return checkIn;
     }
 
-    public void setCheckIn(Date checkIn) {
+    public void setCheckIn(long checkIn) {
         this.checkIn = checkIn;
     }
 
@@ -84,11 +84,11 @@ public class Attendence {
         this.chkOutLat = chkOutLat;
     }
 
-    public Date getCheckOut() {
+    public long getCheckOut() {
         return checkOut;
     }
 
-    public void setCheckOut(Date checkOut) {
+    public void setCheckOut(long checkOut) {
         this.checkOut = checkOut;
     }
 

@@ -17,19 +17,46 @@ public class Staff {
 
     private long staffId;
     private String name;
-    private String password;
-    private String gender;
-    private String aadhaarNo;
-    private String panNo;
     private String email;
     private String phone;
+    private String dob;
     private String currentAddr;
     private String permanentAddr;
+    private String aadhaarNo;
+    private String panNo;
     private String fatherName;
     private String motherName;
     private String bloodGroup;
 
+    private String password;
+    private String gender;
     private Branch branch;
+
+    public String getParamData(){
+        return "staffId="+staffId
+                +"&gender="+gender
+                +"&aadhaarNo="+aadhaarNo
+                +"&panNo="+panNo
+                +"&email="+email
+                +"&phone="+phone
+                +"&currentAddr="+currentAddr
+                +"&permanentAddr="+permanentAddr
+                +"&fatherName="+fatherName
+                +"&motherName="+motherName
+                +"&bloodGroup="+bloodGroup;
+
+    }
+
+
+    public String getDob() {
+        return dob;
+    }
+
+    public void setDob(String dob) {
+        this.dob = dob;
+    }
+
+
 
     public Branch getBranch() {
         return branch;

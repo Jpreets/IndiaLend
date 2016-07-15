@@ -2,6 +2,7 @@ package net.indialend.attendence.activity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -37,10 +38,15 @@ import com.google.android.gms.maps.model.Marker;
 
 import net.indialend.attendence.bean.Attendence;
 import net.indialend.attendence.R;
+import net.indialend.attendence.dao.DatabaseHandler;
+import net.indialend.attendence.operation.AttendenceStatusOperation;
 import net.indialend.attendence.operation.AttendenceOperation;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class MainActivity extends CommonActivity
-        implements LocationListener,OnMapReadyCallback {
+        implements LocationListener,OnMapReadyCallback{
 
     private GoogleMap mMap;
     Marker marker;
@@ -65,18 +71,22 @@ public class MainActivity extends CommonActivity
         startButton.setText("Check In");
         endTime = SystemClock.uptimeMillis();
 
-        timeSwapBuff += timeInMilliseconds;
+//        timeSwapBuff += timeInMilliseconds;
         customHandler.removeCallbacks(updateTimerThread);
         timerValue.setText("0:0:0");
     }
 
     public void doCheckIn(){
-        startButton.setText("Check Out");
-        startTime = SystemClock.uptimeMillis();
 
-        customHandler.postDelayed(updateTimerThread, 0);
+        Log.d("MAP::" , new Date().toString());
+        doCheckIn(new Date().getTime());
     }
 
+    public void doCheckIn(long startTime){
+        startButton.setText("Check Out");
+        this.startTime = startTime;
+        customHandler.postDelayed(updateTimerThread, 0);
+    }
 
     private Runnable updateTimerThread = new Runnable() {
 
@@ -84,23 +94,17 @@ public class MainActivity extends CommonActivity
 
             timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
 
-            updatedTime = timeSwapBuff + timeInMilliseconds;
+            long diff =  new Date().getTime() - startTime ;
+            long diffSeconds = diff / 1000 % 60;
+            long diffMinutes = diff / (60 * 1000) % 60;
+            long diffHours = diff / (60 * 60 * 1000) % 24;
+            long diffDays = diff / (24 * 60 * 60 * 1000);
 
-            long s = updatedTime % 60;
-            long m = (updatedTime / 60) % 60;
-            long h = (updatedTime / (60 * 60)) % 24;
-
-
-//            int secs = (int) (updatedTime / 1000);
-//            int mins = secs / 60;
-//            int hour = mins / 60;
-//            secs = secs % 60;
-//            int milliseconds = (int) (updatedTime % 1000);
-            timerValue.setText(""
-                    + String.format("%02d", h) + ":"
-                    + String.format("%02d", m) + ":"
-                    + String.format("%03d", s));
-            customHandler.postDelayed(this, 0);
+            timerValue.setText(   ""
+                    + String.format("%02d", diffHours) + ":"
+                    + String.format("%02d", diffMinutes) + ":"
+                    + String.format("%02d", diffSeconds));
+            customHandler.postDelayed(this, 10);
         }
 
     };
@@ -138,6 +142,9 @@ public class MainActivity extends CommonActivity
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
 
         supportMapFragment.getMapAsync(this);
+
+        new AttendenceStatusOperation(this).execute();
+
 
     }
 
@@ -205,6 +212,5 @@ public class MainActivity extends CommonActivity
     public void onProviderDisabled(String provider) {
 
     }
-
 
 }
