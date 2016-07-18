@@ -29,6 +29,7 @@
         <ul class="nav navbar-nav">
             <li class="${pageContext.request.requestURI.contains('branch')?"active":""}"><a href="../branch/list">Branch</a></li>
             <li class="${pageContext.request.requestURI.contains('staff')?"active":""}"><a href="../staff/list">Staff</a></li>
+            <li class="${pageContext.request.requestURI.contains('holiday')?"active":""}"><a href="../holiday/list">Holidays</a></li>
             <li class="${pageContext.request.requestURI.contains('staff')?"active":""}"><a target="_blank" href="http://jazzkart-jazzkart.rhcloud.com/mobileapp/attendance.apk">Mobile App</a></li>
 
         </ul>

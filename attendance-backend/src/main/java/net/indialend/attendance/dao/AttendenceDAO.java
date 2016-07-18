@@ -7,10 +7,7 @@ package net.indialend.attendance.dao;
 
 import java.util.Date;
 import java.util.List;
-import net.indialend.attendance.service.*;
 import net.indialend.attendance.bean.Attendence;
-import net.indialend.attendance.bean.Branch;
-import net.indialend.attendance.bean.Staff;
 
 /**
  *

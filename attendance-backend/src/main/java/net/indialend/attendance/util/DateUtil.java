@@ -7,16 +7,13 @@ package net.indialend.attendance.util;
 
 import java.util.Calendar;
 import java.util.Date;
+import net.indialend.attendance.constant.DateFilter;
 
 /**
  *
  * @author jaspreetsingh
  */
 public class DateUtil {
-
-    public static enum Filter {
-        DAY,WEEK, MONTH, YEAR
-    };
 
     public static Date updateDate(Date date, int days) {
         Calendar cal = Calendar.getInstance();
@@ -39,14 +36,14 @@ public class DateUtil {
         return cal.getTime();
     }
 
-    public static Date update(Date date,  Filter filter, int value) {
+    public static Date update(Date date, DateFilter filter, int value) {
         switch (filter) {
             case DAY:
                 return updateDate(date, value);
             case MONTH:
                 return updateMonth(date, value);
             case YEAR:
-               return updateYear(date, value);
+                return updateYear(date, value);
         }
         return null;
     }
@@ -58,6 +55,13 @@ public class DateUtil {
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
         return cal.getTime();
+    }
+
+    public static Date getYearStartDate(int year) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, year);
+        cal.set(Calendar.DAY_OF_YEAR, 1);
+        return getDateWithoutTime(cal.getTime());
     }
 
 }

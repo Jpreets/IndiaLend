@@ -10,6 +10,7 @@ import java.util.List;
 import net.indialend.attendance.bean.Attendence;
 import net.indialend.attendance.bean.Branch;
 import net.indialend.attendance.bean.Staff;
+import net.indialend.attendance.constant.DateFilter;
 import net.indialend.attendance.dao.AttendenceDAO;
 import net.indialend.attendance.dao.StaffDAO;
 import net.indialend.attendance.util.DateUtil;
@@ -52,7 +53,7 @@ public class AttendenceServiceImpl implements AttendenceService {
     public List<Attendence> getTodayAttendence(long staffId, Date date) {
         Date dateWithoutTime = DateUtil.getDateWithoutTime(date);
         return attendenceDAO.getAttendence(staffId, dateWithoutTime,
-                DateUtil.update(dateWithoutTime, DateUtil.Filter.DAY, 1));
+                DateUtil.update(dateWithoutTime, DateFilter.DAY, 1));
 
     }
 
@@ -60,24 +61,24 @@ public class AttendenceServiceImpl implements AttendenceService {
     public List<Attendence> getWeekAttendence(long staffId, Date date) {
         Date dateWithoutTime = DateUtil.getDateWithoutTime(date);
         return attendenceDAO.getAttendence(staffId,
-                DateUtil.update(dateWithoutTime, DateUtil.Filter.DAY, -7),
-                DateUtil.update(dateWithoutTime, DateUtil.Filter.DAY, 1));
+                DateUtil.update(dateWithoutTime, DateFilter.DAY, -7),
+                DateUtil.update(dateWithoutTime, DateFilter.DAY, 1));
     }
 
     @Override
     public List<Attendence> getMonthAttendence(long staffId, Date date) {
         Date dateWithoutTime = DateUtil.getDateWithoutTime(date);
         return attendenceDAO.getAttendence(staffId,
-                DateUtil.update(dateWithoutTime, DateUtil.Filter.MONTH, -1),
-                DateUtil.update(dateWithoutTime, DateUtil.Filter.DAY, 1));
+                DateUtil.update(dateWithoutTime, DateFilter.MONTH, -1),
+                DateUtil.update(dateWithoutTime, DateFilter.DAY, 1));
     }
 
     @Override
     public List<Attendence> getYearAttendence(long staffId, Date date) {
         Date dateWithoutTime = DateUtil.getDateWithoutTime(date);
         return attendenceDAO.getAttendence(staffId,
-                DateUtil.update(dateWithoutTime, DateUtil.Filter.YEAR, -1),
-                DateUtil.update(dateWithoutTime, DateUtil.Filter.DAY, 1)
+                DateUtil.update(dateWithoutTime, DateFilter.YEAR, -1),
+                DateUtil.update(dateWithoutTime, DateFilter.DAY, 1)
         );
     }
 

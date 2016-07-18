@@ -14,6 +14,7 @@ import net.indialend.attendance.bean.Attendence;
 import net.indialend.attendance.bean.Branch;
 import net.indialend.attendance.bean.Staff;
 import net.indialend.attendance.compnent.Email;
+import net.indialend.attendance.constant.DateFilter;
 import net.indialend.attendance.service.AttendenceService;
 import net.indialend.attendance.service.BranchService;
 import net.indialend.attendance.service.StaffService;
@@ -89,7 +90,7 @@ public class AttendenceController {
     @ResponseBody
     public List<Attendence> attendenceData(
             @RequestParam(defaultValue = "0", required = true) long staffId,
-            @RequestParam(defaultValue = "MONTH", required = false) DateUtil.Filter type,
+            @RequestParam(defaultValue = "MONTH", required = false)DateFilter type,
             @RequestParam(required = false) Date fromDate) {
 
         if (fromDate == null) {
@@ -114,7 +115,7 @@ public class AttendenceController {
 
     @RequestMapping("/list")
     public ModelAndView attendanceList(@RequestParam(defaultValue = "0", required = true) long staffId,
-            @RequestParam(defaultValue = "MONTH", required = false)  DateUtil.Filter type,
+            @RequestParam(defaultValue = "MONTH", required = false)  DateFilter type,
             @RequestParam(required = false) Date fromDate) {
         ModelAndView view = new ModelAndView("attendence/attendenceList");
         
