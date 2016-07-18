@@ -17,6 +17,7 @@ import net.indialend.attendance.compnent.Email;
 import net.indialend.attendance.service.AttendenceService;
 import net.indialend.attendance.service.BranchService;
 import net.indialend.attendance.service.StaffService;
+import net.indialend.attendance.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -88,7 +89,7 @@ public class AttendenceController {
     @ResponseBody
     public List<Attendence> attendenceData(
             @RequestParam(defaultValue = "0", required = true) long staffId,
-            @RequestParam(defaultValue = "MONTH", required = false) String type,
+            @RequestParam(defaultValue = "MONTH", required = false) DateUtil.Filter type,
             @RequestParam(required = false) Date fromDate) {
 
         if (fromDate == null) {
@@ -96,50 +97,33 @@ public class AttendenceController {
         }
 
         switch (type) {
-            case "DAY":
+            case DAY:
                 return attendenceService.getTodayAttendence(staffId, fromDate);
-            case "WEEK":
+            case WEEK:
                 return attendenceService.getWeekAttendence(staffId, fromDate);
-            case "MONTH":
+            case MONTH:
                 return attendenceService.getMonthAttendence(staffId, fromDate);
-            case "YEAR":
+            case YEAR:
                 return attendenceService.getYearAttendence(staffId, fromDate);
         }
 
         return null;
     }
+    
+     
 
     @RequestMapping("/list")
     public ModelAndView attendanceList(@RequestParam(defaultValue = "0", required = true) long staffId,
-            @RequestParam(defaultValue = "MONTH", required = false) String type,
+            @RequestParam(defaultValue = "MONTH", required = false)  DateUtil.Filter type,
             @RequestParam(required = false) Date fromDate) {
         ModelAndView view = new ModelAndView("attendence/attendenceList");
-
-        if (fromDate == null) {
-            fromDate = new Date();
-        }
-
-        List<Attendence> attendence = null;
-        switch (type) {
-            case "DAY":
-                attendence = attendenceService.getTodayAttendence(staffId, fromDate);
-                break;
-            case "WEEK":
-                attendence = attendenceService.getWeekAttendence(staffId, fromDate);
-                break;
-            case "MONTH":
-                attendence = attendenceService.getMonthAttendence(staffId, fromDate);
-                break;
-            case "YEAR":
-                attendence = attendenceService.getYearAttendence(staffId, fromDate);
-                break;
-
-        }
+        
+        List<Attendence> attendence = attendenceData(staffId, type, fromDate) ;
+      
         view.addObject("attendenceList", attendence);
 
-        if (attendence == null || attendence.size() == 0) {
+        if (attendence == null || attendence.isEmpty()) {
             view.addObject("staff", this.staffService.getStaff(staffId));
-
         } else {
             view.addObject("staff", attendence.get(0).getStaff());
         }
