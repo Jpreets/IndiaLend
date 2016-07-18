@@ -22,9 +22,37 @@
 
     <div class="container">
 
-               <jsp:include page="../navigation.jsp"/>
+        <jsp:include page="../navigation.jsp"/>
 
         <div class="generic-container">
+            <form action="saveWorkingDay">
+                <div class="panel panel-default">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading">
+                        <span class="lead">Working  Day </span><br>
+
+                    </div>
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Day</th>   
+                                <th>Selected</th>
+                                <th>Minimum Hours</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach items="${WorkingDay.values()}" var="working">
+                                <tr>
+                                    <td>${working.name}</td>
+                                    <td><input type="checkbox" value="${working.numVal}"/></td>
+                                    <td><input type="textfield" /></td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+
             <div class="panel panel-default">
                 <!-- Default panel contents -->
                 <div class="panel-heading">
