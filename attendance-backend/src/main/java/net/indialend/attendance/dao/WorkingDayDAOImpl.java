@@ -10,8 +10,12 @@ import net.indialend.attendance.service.*;
 import java.util.List;
 import net.indialend.attendance.bean.Branch;
 import net.indialend.attendance.bean.Holiday;
+import net.indialend.attendance.bean.WorkingDays;
 import net.indialend.attendance.dao.BranchDAO;
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -21,18 +25,19 @@ import org.springframework.stereotype.Repository;
  * @author jaspreetsingh
  */
 @Repository
-public class HolidayDAOImpl extends AbstractDao<Long, Holiday> implements HolidayDAO {
-
-    @Override
-    public List<Holiday> getHoliday(Date from, Date to) {
-        Criteria crit = createEntityCriteria();
-        crit.add(Restrictions.ge("holidayDate", from));
-        crit.add(Restrictions.le("holidayDate", to));
-        System.out.println(from+"-----"+to);
-        return (List<Holiday>) crit.list();
-    }
+public class WorkingDayDAOImpl extends AbstractDao<Long, WorkingDays> implements WorkingDayDAO {
     
-     
+      public int truncate() {
+        int recordDeleted = 0;
+        try {
+            Session s = getSession();
+            String hql = "delete from WorkingDays";
+            Query q = s.createQuery(hql);
+            recordDeleted = q.executeUpdate();
+        } catch (HibernateException e) {
+        }
+        return recordDeleted;
+    }
 
 
 }

@@ -14,6 +14,10 @@ import net.indialend.attendance.constant.WorkingDay;
 public class Test {
     public static void main(String[] args) {
       
+        for (WorkingDay dir : WorkingDay.values()) {
+            System.out.println(dir.ordinal());
+  // do what you want
+}
         
     }
 }

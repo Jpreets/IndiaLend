@@ -9,7 +9,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
         <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
         <link href="<c:url value='/static/css/app.css' />" rel="stylesheet"></link>
     </script>
@@ -20,7 +21,7 @@
 
     <div class="container">
 
-               <jsp:include page="../navigation.jsp"/>
+        <jsp:include page="../navigation.jsp"/>
 
         <div class="generic-container">
             <div class="panel panel-default">
@@ -40,30 +41,33 @@
                         id="delete" 
                         class="btn btn-default">Delete</a>
                 </div>
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th><input id="selectAll" type="checkbox" value="0" ></th>
-                            <th>Branch ID</th>
-                            <th>Name</th>
-                            <th>Manager</th>
-                            <th>Location</th>
-                            <th>phone</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <c:forEach items="${branchList}" var="branch">
+                <div style="overflow-x:auto;" class="table-responsive">
+
+                    <table class="table table-hover">
+                        <thead>
                             <tr>
-                                <td><input type="checkbox" value="${branch.branchId}"></td>
-                                <td>${branch.branchId}</td>
-                                <td>${branch.name}</td>
-                                <td>${branch.manager}</td>
-                                <td>${branch.location}</td>
-                                <td>${branch.phone}</td>
+                                <th><input id="selectAll" type="checkbox" value="0" ></th>
+                                <th>Branch ID</th>
+                                <th>Name</th>
+                                <th>Manager</th>
+                                <th>Location</th>
+                                <th>phone</th>
                             </tr>
-                        </c:forEach>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            <c:forEach items="${branchList}" var="branch">
+                                <tr>
+                                    <td><input type="checkbox" value="${branch.branchId}"></td>
+                                    <td>${branch.branchId}</td>
+                                    <td>${branch.name}</td>
+                                    <td>${branch.manager}</td>
+                                    <td>${branch.location}</td>
+                                    <td>${branch.phone}</td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

@@ -25,7 +25,15 @@
     <div class="container-fluid">
         <div class="navbar-header">
             <a class="navbar-brand" href="#">Attendance</a>
+             <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
         </div>
+                        <div class="navbar-collapse collapse" id="navbar-main">
+
         <ul class="nav navbar-nav">
             <li class="${pageContext.request.requestURI.contains('branch')?"active":""}"><a href="../branch/list">Branch</a></li>
             <li class="${pageContext.request.requestURI.contains('staff')?"active":""}"><a href="../staff/list">Staff</a></li>
@@ -34,6 +42,7 @@
 
         </ul>
         <a class="navbar-brand pull-right" href="javascript:formSubmit()">Logout</a>
+                        </div>
 
 
     </div>

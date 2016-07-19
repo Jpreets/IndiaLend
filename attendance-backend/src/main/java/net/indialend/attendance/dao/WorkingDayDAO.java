@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.indialend.attendance.service;
+package net.indialend.attendance.dao;
 
+import java.util.Date;
+import net.indialend.attendance.service.*;
 import java.util.List;
 import net.indialend.attendance.bean.Branch;
 import net.indialend.attendance.bean.Holiday;
@@ -14,18 +16,12 @@ import net.indialend.attendance.bean.WorkingDays;
  *
  * @author jaspreetsingh
  */
-public interface HolidayService {
+public interface WorkingDayDAO {
 
-    public boolean saveHoliday(Holiday holiday);
-
-    public Holiday getHoliday(long holidayId);
-
-    public List<Holiday> getHoliday(int year);
-
-    public boolean deleteHoliday(long holidayId);
+   public void persist(WorkingDays workingdays);
+   
+   public int truncate();
     
-    public boolean saveWorkingDays(List<WorkingDays> workingdays);
-    
-    public List<WorkingDays>  getWorkingDays();
+   public List<WorkingDays>  getAll();
 
 }

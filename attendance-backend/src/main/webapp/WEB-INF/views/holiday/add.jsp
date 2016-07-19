@@ -40,12 +40,24 @@
 
                 <form role="form" action="save" method="POST">
                     <div class="col-md-6 form-group">
+                        
                         <label for="textbox1">Date</label>
-                        <input class="form-control" id="textbox1" type="text" name="name" value="<fmt:formatDate type="date" value="${holiday.holidayDate}" />" />
+                        <input class="form-control"  id="datepicker" type="text" name="holidayDate" />
+                         <script>
+
+                                $("#datepicker").datepicker({
+                                    dateFormat:"yy/mm/dd",
+                                    
+                                });
+                                var setDate= new Date('${holiday.holidayDate}');
+                                
+                                $("#datepicker").datepicker('setDate', setDate);
+
+                            </script>
                     </div>
                     <div class="col-md-6 form-group">
                         <label for="textbox2">Detail</label>
-                        <input class="form-control" id="textbox2" type="text"  name="manager"  value="<c:out value="${holiday.detail}"/>" />
+                        <input class="form-control" id="textbox2" type="text"  name="detail"  value="<c:out value="${holiday.detail}"/>" />
                     </div>
                     
                     <span class="clearfix"/>

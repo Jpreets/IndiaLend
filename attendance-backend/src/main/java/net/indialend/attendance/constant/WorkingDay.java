@@ -22,7 +22,7 @@ public enum WorkingDay {
     SUNDAY(Calendar.SUNDAY);
 
     private int numVal;
-
+    
     WorkingDay(int numVal) {
         this.numVal = numVal;
     }

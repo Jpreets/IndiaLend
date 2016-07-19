@@ -9,9 +9,11 @@ import java.util.Date;
 import java.util.List;
 import net.indialend.attendance.bean.Branch;
 import net.indialend.attendance.bean.Holiday;
+import net.indialend.attendance.bean.WorkingDays;
 import net.indialend.attendance.constant.DateFilter;
 import net.indialend.attendance.dao.BranchDAO;
 import net.indialend.attendance.dao.HolidayDAO;
+import net.indialend.attendance.dao.WorkingDayDAO;
 import net.indialend.attendance.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,9 @@ public class HolidayServiceImpl implements HolidayService {
     @Autowired
     private HolidayDAO holidayDAO;
 
+    @Autowired
+    private WorkingDayDAO workingDayDAO;
+    
     public boolean saveHoliday(Holiday holiday) {
         if (holiday.getHolidayId() != 0) {
             Holiday h1 = holidayDAO.getByKey(holiday.getHolidayId());
@@ -54,6 +59,20 @@ public class HolidayServiceImpl implements HolidayService {
         Holiday h1 = holidayDAO.getByKey(holidayId);
         holidayDAO.delete(h1);
         return true;
+    }
+
+    @Override
+    public boolean saveWorkingDays(List<WorkingDays> workingdays) {
+        workingDayDAO.truncate();
+        for(WorkingDays workingDays : workingdays){
+           workingDayDAO.persist(workingDays);
+        }
+        return true;
+    }
+
+    @Override
+    public List<WorkingDays> getWorkingDays() {
+        return workingDayDAO.getAll();
     }
 
 }

@@ -11,6 +11,7 @@
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
         <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
         <link href="<c:url value='/static/css/app.css' />" rel="stylesheet"></link>
     </script>
 </head>
@@ -43,32 +44,34 @@
                         id="attendence" 
                         class="btn btn-default">Attendence</a>
                 </div>
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th><input id="selectAll" type="checkbox" value="0" ></th>
-                            <th>Staff ID</th>
-                            <th>Name</th>
-                            <th>email</th>
-                            <th>gender</th>
-                            <th>phone</th>
-                            <th>Branch</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <c:forEach items="${staffList}" var="staff">
+                <div style="overflow-x:auto;" class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
                             <tr>
-                                <td><input type="checkbox" value="${staff.staffId}"></td>
-                                <td>${staff.staffId}</td>
-                                <td>${staff.name}</td>
-                                <td>${staff.email}</td>
-                                <td>${staff.gender}</td>
-                                <td>${staff.phone}</td>
-                                <td>${staff.branch.name}</td>
+                                <th><input id="selectAll" type="checkbox" value="0" ></th>
+                                <th>Staff ID</th>
+                                <th>Name</th>
+                                <th>email</th>
+                                <th>gender</th>
+                                <th>phone</th>
+                                <th>Branch</th>
                             </tr>
-                        </c:forEach>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            <c:forEach items="${staffList}" var="staff">
+                                <tr>
+                                    <td><input type="checkbox" value="${staff.staffId}"></td>
+                                    <td>${staff.staffId}</td>
+                                    <td>${staff.name}</td>
+                                    <td>${staff.email}</td>
+                                    <td>${staff.gender}</td>
+                                    <td>${staff.phone}</td>
+                                    <td>${staff.branch.name}</td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -88,7 +91,7 @@
         }
 
     });
-    
+
     $('#attendence').click(function () {
         var searchIDs = [];
         $('input:checked').map(function () {
