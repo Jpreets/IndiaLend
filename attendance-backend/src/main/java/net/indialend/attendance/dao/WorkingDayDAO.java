@@ -18,10 +18,10 @@ import net.indialend.attendance.bean.WorkingDays;
  */
 public interface WorkingDayDAO {
 
-   public void persist(WorkingDays workingdays);
-   
-   public int truncate();
-    
+    public void persist(WorkingDays workingdays);
+
+    public int truncate();
+
    public List<WorkingDays>  getAll();
 
 }

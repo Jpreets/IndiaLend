@@ -32,25 +32,26 @@ import org.springframework.web.servlet.view.RedirectView;
 @RequestMapping("/holiday")
 @Controller
 public class HolidayController {
-    
+
     @Autowired
     private HolidayService holidayService;
 
     @RequestMapping("/list")
-    public ModelAndView List(
-            @RequestParam(defaultValue = "0", required = false) int year) {
-        ModelAndView view = new ModelAndView("holiday/list");
-        
-        if(year == 0){
-         year =Calendar.getInstance().get(Calendar.YEAR);
+    public ModelAndView holidayList(@RequestParam(defaultValue = "0", required = false) int year) {
+
+        ModelAndView view = new ModelAndView("holiday/holidayList");
+        if (year == 0) {
+            
+            year = Calendar.getInstance().get(Calendar.YEAR);
         }
-        System.out.println("====="+holidayService.getHoliday(year).size());
-        
+
         view.addObject("holidayList", holidayService.getHoliday(year));
-        
+
         List<WorkingDays> workingDays = holidayService.getWorkingDays();
-        if(workingDays.isEmpty()){
-            for(WorkingDay workingDay  : WorkingDay.values()){
+        if (workingDays.isEmpty()) {
+            
+            for (WorkingDay workingDay : WorkingDay.values()) {
+                
                 WorkingDays wd = new WorkingDays();
                 wd.setWorkingDay(workingDay);
                 workingDays.add(wd);
@@ -62,44 +63,50 @@ public class HolidayController {
     }
 
     @RequestMapping("/edit")
-    public ModelAndView editBranch(@RequestParam(defaultValue = "0", required = false) long holidayId) {
-        ModelAndView view = new ModelAndView("holiday/add");
+    public ModelAndView editHoliday(@RequestParam(defaultValue = "0", required = false) long holidayId) {
+
+        ModelAndView view = new ModelAndView("holiday/addHoliday");
         if (holidayId != 0) {
+            
             view.addObject("holiday", holidayService.getHoliday(holidayId));
         }
+        
         return view;
     }
 
     @RequestMapping("/save")
-    public ModelAndView saveBranch(Holiday holiday) {
+    public ModelAndView saveHoliday(Holiday holiday) {
+
         ModelAndView view = new ModelAndView(new RedirectView("list"));
-
         holidayService.saveHoliday(holiday);
-
+        
         return view;
     }
 
     @RequestMapping("/delete")
-    public ModelAndView deleteBranch(String holidayId) {
-        ModelAndView view = new ModelAndView(new RedirectView("list"));
+    public ModelAndView deleteHoliday(String holidayId) {
 
+        ModelAndView view = new ModelAndView(new RedirectView("list"));
         if (holidayId != null) {
+
             String[] bids = holidayId.split(",");
             for (String bid : bids) {
+
                 holidayService.deleteHoliday(Long.valueOf(bid));
             }
 
         }
+        
         return view;
     }
-    
-     @RequestMapping("/saveWorkingDay")
-     @ResponseBody
+
+    @RequestMapping("/saveWorkingDay")
+    @ResponseBody
     public Map saveWorkingDay(@RequestBody List<WorkingDays> workingday) {
-        System.out.println("----------"+workingday);
-        Map map=  new HashMap();
+
+        Map map = new HashMap();
         map.put("success", holidayService.saveWorkingDays(workingday));
         return map;
     }
-    
+
 }

@@ -5,6 +5,7 @@
  */
 package net.indialend.attendance.conf;
 
+import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -16,10 +17,20 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    
+	@Autowired
+	DataSource dataSource;
+	
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
                 .withUser("indialend").password("123456").roles("USER");
+
+//        auth.jdbcAuthentication().dataSource(dataSource)
+//                       .usersByUsernameQuery(
+//                               "select user,pwd, enable from users where user=?")
+//                       .authoritiesByUsernameQuery(
+//                               "select user, role from user_roles where user=?");
     }
 
     

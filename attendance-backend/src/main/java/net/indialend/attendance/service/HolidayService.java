@@ -5,6 +5,7 @@
  */
 package net.indialend.attendance.service;
 
+import java.util.Date;
 import java.util.List;
 import net.indialend.attendance.bean.Branch;
 import net.indialend.attendance.bean.Holiday;
@@ -27,5 +28,7 @@ public interface HolidayService {
     public boolean saveWorkingDays(List<WorkingDays> workingdays);
     
     public List<WorkingDays>  getWorkingDays();
-
+    
+    public Holiday getHoliday(Date date);
+    
 }

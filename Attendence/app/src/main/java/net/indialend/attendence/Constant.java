@@ -5,14 +5,16 @@ package net.indialend.attendence;
  */
 public interface Constant {
 
-//    String domain ="http://2a921b9f.ngrok.io/attendance-backend";
-    String domain ="http://jazzkart-jazzkart.rhcloud.com/attendance-backend";
+    String domain ="http://1819114b.ngrok.io/attendance-backend";
+//    String domain ="http://jazzkart-jazzkart.rhcloud.com/attendance-backend";
 
 
-    String attendenceUrl = domain+"/attendence/save";
-    String attendenceStatusUrl = domain+"/attendence/data";
-    String staffDetailUrl = domain+"/attendence/staffDetail";
-    String loginUrl = domain+"/attendence/login";
-    String staffUpdateUrl = domain+"/attendence/updateStaff";
+    String attendenceUrl = domain+"/api/saveAttendence";
+    String attendenceStatusUrl = domain+"/api/attendenceData";
+    String staffDetailUrl = domain+"/api/staffDetail";
+    String loginUrl = domain+"/api/login";
+    String staffUpdateUrl = domain+"/api/updateStaff";
+    String leaveDataUrl = domain+"/api/leaveData";
+    String leaveSaveUrl = domain+"/api/saveLeave";
 
 }

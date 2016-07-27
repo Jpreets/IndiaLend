@@ -13,6 +13,7 @@ import org.springframework.context.annotation.PropertySources;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.format.FormatterRegistry;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -35,6 +36,16 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 
     @Autowired
     Environment env;
+    
+      @Bean(name = "dataSource")
+	public DriverManagerDataSource dataSource() {
+	    DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
+	    driverManagerDataSource.setDriverClassName("com.mysql.jdbc.Driver");
+	    driverManagerDataSource.setUrl("jdbc:mysql://localhost:3306/attendance");
+	    driverManagerDataSource.setUsername("root");
+	    driverManagerDataSource.setPassword("mindfire");
+	    return driverManagerDataSource;
+	}
 
     @Bean
     public JavaMailSender getmailSender() {

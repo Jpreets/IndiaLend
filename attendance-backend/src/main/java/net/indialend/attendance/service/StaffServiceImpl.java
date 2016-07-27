@@ -65,4 +65,9 @@ public class StaffServiceImpl implements StaffService {
         return true;
     }
 
+    @Override
+    public Long count() {
+        return staffDAO.count();
+    }
+
 }

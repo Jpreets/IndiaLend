@@ -9,9 +9,11 @@ import java.util.Date;
 import java.util.List;
 import net.indialend.attendance.bean.Attendence;
 import net.indialend.attendance.bean.Branch;
+import net.indialend.attendance.bean.Leaves;
 import net.indialend.attendance.bean.Staff;
 import net.indialend.attendance.constant.DateFilter;
 import net.indialend.attendance.dao.AttendenceDAO;
+import net.indialend.attendance.dao.LeaveDAO;
 import net.indialend.attendance.dao.StaffDAO;
 import net.indialend.attendance.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,9 @@ public class AttendenceServiceImpl implements AttendenceService {
 
     @Autowired
     private AttendenceDAO attendenceDAO;
+
+    @Autowired
+    private LeaveDAO leaveDAO;
 
     @Override
     public boolean saveAttendence(Attendence attendence) {
@@ -80,6 +85,20 @@ public class AttendenceServiceImpl implements AttendenceService {
                 DateUtil.update(dateWithoutTime, DateFilter.YEAR, -1),
                 DateUtil.update(dateWithoutTime, DateFilter.DAY, 1)
         );
+    }
+
+    @Override
+    public boolean saveLeave(Leaves leaves) {
+        leaveDAO.persist(leaves);
+        return leaves.getLeaveId() > 0;
+    }
+
+    @Override
+    public List<Leaves> getLeaves(long staffId, int year) {
+        Date startDate = DateUtil.getYearStartDate(year);
+        return leaveDAO.getLeaves(staffId, startDate,
+                DateUtil.update(startDate, DateFilter.YEAR, 1));
+
     }
 
 }

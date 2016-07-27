@@ -22,5 +22,7 @@ public interface StaffService {
     public List<Staff> getStaff(int offset, int limit);
 
     public boolean deleteStaff(long staffId);
+    
+    public Long count();
 
 }

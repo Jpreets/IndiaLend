@@ -104,6 +104,7 @@ public class CommonActivity extends AppCompatActivity
             mapActivityIntent  =  new Intent(this, ProfileActivity.class);
 
         } else if (id == R.id.leave) {
+            mapActivityIntent  =  new Intent(this, LeaveActivity.class);
 
         } else if (id == R.id.notification) {
 

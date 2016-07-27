@@ -24,6 +24,8 @@ public interface StaffDAO {
     public void delete(Staff branch);
 
     public Staff getByKey(Long staffId);
+    
+    public Long count();
 
     public List<Staff> getStaff(int offset, int limit);
 }

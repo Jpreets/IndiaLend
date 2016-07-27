@@ -75,4 +75,10 @@ public class HolidayServiceImpl implements HolidayService {
         return workingDayDAO.getAll();
     }
 
+    @Override
+    public Holiday getHoliday(Date date) {
+        Date to = DateUtil.updateDate(date,1);
+        return  holidayDAO.getHoliday(date, to).get(0);
+    }
+
 }

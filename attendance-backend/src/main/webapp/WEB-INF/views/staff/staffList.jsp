@@ -43,6 +43,9 @@
                     <a  style="width: 95px !important;" 
                         id="attendence" 
                         class="btn btn-default">Attendence</a>
+                    <a  style="width: 95px !important;" 
+                        id="leave" 
+                        class="btn btn-default">Leave</a>
                 </div>
                 <div style="overflow-x:auto;" class="table-responsive">
                     <table class="table table-hover">
@@ -99,12 +102,27 @@
                 searchIDs.push($(this).val());
         });
         if (searchIDs.length == 1) {
-            window.location.href = "../attendence/list?staffId=" + searchIDs[0];
+            window.location.href = "../api/attendanceList?staffId=" + searchIDs[0];
         } else {
             alert("No record selected");
         }
 
     });
+
+    $('#leave').click(function () {
+        var searchIDs = [];
+        $('input:checked').map(function () {
+            if ($(this).val() != "0")
+                searchIDs.push($(this).val());
+        });
+        if (searchIDs.length == 1) {
+            window.location.href = "../api/leaveList?staffId=" + searchIDs[0];
+        } else {
+            alert("No record selected");
+        }
+
+    });
+
     $('#delete').click(function () {
         var searchIDs = [];
         $('input:checked').map(function () {

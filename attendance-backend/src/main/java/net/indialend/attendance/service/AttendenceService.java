@@ -8,6 +8,7 @@ package net.indialend.attendance.service;
 import java.util.Date;
 import java.util.List;
 import net.indialend.attendance.bean.Attendence;
+import net.indialend.attendance.bean.Leaves;
 import net.indialend.attendance.bean.Staff;
 
 /**
@@ -23,8 +24,11 @@ public interface AttendenceService {
     public List<Attendence> getWeekAttendence(long staffId, Date date);
 
     public List<Attendence> getMonthAttendence(long staffId, Date date);
-    
+
     public List<Attendence> getYearAttendence(long staffId, Date date);
 
-    
+    public boolean saveLeave(Leaves leaves);
+
+    public List<Leaves> getLeaves(long staffId, int year);
+
 }

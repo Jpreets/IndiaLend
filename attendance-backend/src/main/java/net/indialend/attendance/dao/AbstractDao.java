@@ -10,6 +10,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class AbstractDao<PK extends Serializable, T> {
@@ -52,6 +53,10 @@ public abstract class AbstractDao<PK extends Serializable, T> {
     public List<T> getAll() {
         return getSession().createCriteria(persistentClass).list();
     }
-
+    
+    public Long count() {
+        return (Long) getSession().createCriteria(persistentClass)
+                .setProjection(Projections.rowCount()).uniqueResult();
+    }
   
 }
