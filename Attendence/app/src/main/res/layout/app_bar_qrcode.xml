@@ -30,7 +30,7 @@
 
 
 
-    <include layout="@layout/fragment_leave" />
+    <include layout="@layout/fragment_qrcode" />
 
 </LinearLayout>
 

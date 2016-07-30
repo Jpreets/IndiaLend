@@ -12,22 +12,25 @@
     android:background="#a9a6a6">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/profilePic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:src="@android:drawable/sym_def_app_icon" />
+        android:src="@android:drawable/sym_def_app_icon"
+        android:onClick="profileClick" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:text="Android Studio"
+        android:id="@+id/profileName"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/profileEmail"
         android:text="android.studio@android.com" />
 
 </LinearLayout>

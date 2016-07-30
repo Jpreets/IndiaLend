@@ -28,9 +28,31 @@ public class ProfileActivity extends CommonActivity {
         setContentView(R.layout.activity_profile);
         setupDrawer();
 
-        new StaffDetailOperation(this).execute();
+    }
+
+    public void loadStaff(Staff staff){
+        ((EditText) findViewById(R.id.name)).setText(staff.getName());
+        ((EditText) findViewById(R.id.email)).setText(staff.getEmail());
+        ((EditText) findViewById(R.id.phone)).setText(staff.getPhone());
+        ((EditText) findViewById(R.id.currentAddr)).setText(staff.getCurrentAddr());
+        ((EditText) findViewById(R.id.permanentAddr)).setText(staff.getPermanentAddr());
+        ((EditText) findViewById(R.id.aadhaarNo)).setText(staff.getAadhaarNo());
+        ((EditText) findViewById(R.id.panNo)).setText(staff.getPanNo());
+        ((EditText) findViewById(R.id.fatherName)).setText(staff.getFatherName());
+        ((EditText) findViewById(R.id.motherName)).setText(staff.getMotherName());
+        ((EditText) findViewById(R.id.bloodGroup)).setText(staff.getBloodGroup());
+
+        if("FEMALE".equals(staff.getGender()) ){
+            ((RadioButton) findViewById(R.id.male)).setChecked(false);
+            ((RadioButton) findViewById(R.id.female)).setChecked(true);
+        }else{
+            ((RadioButton) findViewById(R.id.male)).setChecked(true);
+            ((RadioButton) findViewById(R.id.female)).setChecked(false);
+
+        }
 
     }
+
 
     public void updateStaff(View v) {
         Staff  staff = new Staff();
@@ -56,7 +78,7 @@ public class ProfileActivity extends CommonActivity {
     }
     public void performReset(View v) {
 
-        new StaffDetailOperation(this).execute();
+        new StaffDetailOperation(this,"PROFILE").execute();
 
     }
 }

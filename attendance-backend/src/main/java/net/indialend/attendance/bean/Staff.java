@@ -38,11 +38,21 @@ public class Staff {
     private String fatherName;
     private String motherName;
     private String bloodGroup;
+    private String profilePic;
 
     @ManyToOne
     @JoinColumn(name = "branch_id")
     private Branch branch;
 
+    public String getProfilePic() {
+        return profilePic;
+    }
+
+    public void setProfilePic(String profilePic) {
+        this.profilePic = profilePic;
+    }
+
+    
     public Branch getBranch() {
         return branch;
     }

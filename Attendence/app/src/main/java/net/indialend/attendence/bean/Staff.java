@@ -27,6 +27,7 @@ public class Staff {
     private String fatherName;
     private String motherName;
     private String bloodGroup;
+    private String profilePic;
 
     private String password;
     private String gender;
@@ -38,6 +39,7 @@ public class Staff {
                 +"&aadhaarNo="+aadhaarNo
                 +"&panNo="+panNo
                 +"&email="+email
+                +"&name="+name
                 +"&phone="+phone
                 +"&currentAddr="+currentAddr
                 +"&permanentAddr="+permanentAddr
@@ -56,7 +58,13 @@ public class Staff {
         this.dob = dob;
     }
 
+    public String getProfilePic() {
+        return profilePic;
+    }
 
+    public void setProfilePic(String profilePic) {
+        this.profilePic = profilePic;
+    }
 
     public Branch getBranch() {
         return branch;

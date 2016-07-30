@@ -1,19 +1,24 @@
 package net.indialend.attendence.activity;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import net.indialend.attendence.R;
 import net.indialend.attendence.bean.Leave;
 import net.indialend.attendence.bean.Staff;
 import net.indialend.attendence.bean.User;
 import net.indialend.attendence.dao.DatabaseHandler;
+import net.indialend.attendence.fragment.DatePickerFragment;
 import net.indialend.attendence.operation.AddLeaveOperation;
 import net.indialend.attendence.operation.LeaveDetailOperation;
 import net.indialend.attendence.operation.StaffDetailOperation;
@@ -27,6 +32,8 @@ import java.util.List;
  * Created by jaspreetsingh on 7/6/16.
  */
 public class LeaveActivity extends CommonActivity {
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +57,19 @@ public class LeaveActivity extends CommonActivity {
 
         return  tv;
     }
+
+    public void openDatePicker(View view) {
+        DatePickerFragment newFragment = DatePickerFragment.getInstance(this);
+        newFragment.show(getFragmentManager(),"datePicker");
+    }
+
+
+
+    public void showDate(int year, int month, int day) {
+        ((EditText)findViewById(R.id.leaveDate)).setText(new StringBuilder().append(year).append("/")
+                .append(month).append("/").append(day));
+    }
+
 
     public void buildTable(List<Leave> leaves) {
 

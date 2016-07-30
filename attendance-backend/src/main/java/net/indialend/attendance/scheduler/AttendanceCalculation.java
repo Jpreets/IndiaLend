@@ -82,7 +82,7 @@ public class AttendanceCalculation {
     //(*) means match any
     //*/X means "every X"
     //? ("no specific value") 
-    @Scheduled(cron = "1 0 0 * * ?")
+    @Scheduled(cron = "1 0 0 * * *")
     public void calculate() {
         System.out.println("----------"+new Date());
         Date date = DateUtil.getDateWithoutTime(new Date());

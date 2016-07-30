@@ -12,6 +12,7 @@ import com.google.gson.Gson;
 
 import net.indialend.attendence.Constant;
 import net.indialend.attendence.R;
+import net.indialend.attendence.activity.CommonActivity;
 import net.indialend.attendence.activity.MainActivity;
 import net.indialend.attendence.activity.ProfileActivity;
 import net.indialend.attendence.bean.Attendence;
@@ -30,15 +31,17 @@ import java.net.URLConnection;
  * Created by jaspreetsingh on 5/23/16.
  */
 public class StaffDetailOperation extends AsyncTask<String, Void, Void> {
-    ProfileActivity activity;
+    CommonActivity activity;
     Staff staff;
     AlphaAnimation inAnimation;
     AlphaAnimation outAnimation;
     DatabaseHandler db ;
     User user;
+    String activityName;
 
-    public StaffDetailOperation(ProfileActivity activity){
+    public StaffDetailOperation(CommonActivity activity, String activityName){
         this.activity =activity;
+        this.activityName= activityName;
         db = new DatabaseHandler(activity);
         user =  db.getUser();
     }
@@ -68,27 +71,11 @@ public class StaffDetailOperation extends AsyncTask<String, Void, Void> {
             return;
         }
 
-        ((EditText) activity.findViewById(R.id.name)).setText(staff.getName());
-        ((EditText) activity.findViewById(R.id.email)).setText(staff.getEmail());
-        ((EditText) activity.findViewById(R.id.phone)).setText(staff.getPhone());
-        ((EditText) activity.findViewById(R.id.currentAddr)).setText(staff.getCurrentAddr());
-        ((EditText) activity.findViewById(R.id.permanentAddr)).setText(staff.getPermanentAddr());
-        ((EditText) activity.findViewById(R.id.aadhaarNo)).setText(staff.getAadhaarNo());
-        ((EditText) activity.findViewById(R.id.panNo)).setText(staff.getPanNo());
-        ((EditText) activity.findViewById(R.id.fatherName)).setText(staff.getFatherName());
-        ((EditText) activity.findViewById(R.id.motherName)).setText(staff.getMotherName());
-        ((EditText) activity.findViewById(R.id.bloodGroup)).setText(staff.getBloodGroup());
+//        if(activityName.equals("PROFILE"))
+//        activity.loadStaff(staff);
 
-        if("FEMALE".equals(staff.getGender()) ){
-            ((RadioButton) activity.findViewById(R.id.male)).setChecked(false);
-            ((RadioButton) activity.findViewById(R.id.female)).setChecked(true);
-        }else{
-            ((RadioButton) activity.findViewById(R.id.male)).setChecked(true);
-            ((RadioButton) activity.findViewById(R.id.female)).setChecked(false);
-
-        }
-
-
+        else if(activityName.equals("COMMON"))
+            activity.loadProfileDetail(staff);
     }
 
 

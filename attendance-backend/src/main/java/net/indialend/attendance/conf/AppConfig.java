@@ -37,15 +37,15 @@ public class AppConfig extends WebMvcConfigurerAdapter {
     @Autowired
     Environment env;
     
-      @Bean(name = "dataSource")
-	public DriverManagerDataSource dataSource() {
-	    DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
-	    driverManagerDataSource.setDriverClassName("com.mysql.jdbc.Driver");
-	    driverManagerDataSource.setUrl("jdbc:mysql://localhost:3306/attendance");
-	    driverManagerDataSource.setUsername("root");
-	    driverManagerDataSource.setPassword("mindfire");
-	    return driverManagerDataSource;
-	}
+//    @Bean(name = "dataSource")
+//    public DriverManagerDataSource dataSource() {
+//        DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
+//        driverManagerDataSource.setDriverClassName("com.mysql.jdbc.Driver");
+//        driverManagerDataSource.setUrl("jdbc:mysql://localhost:3306/attendance");
+//        driverManagerDataSource.setUsername("root");
+//        driverManagerDataSource.setPassword("mindfire");
+//        return driverManagerDataSource;
+//    }
 
     @Bean
     public JavaMailSender getmailSender() {

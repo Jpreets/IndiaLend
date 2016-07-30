@@ -12,11 +12,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import net.indialend.attendence.R;
+import net.indialend.attendence.bean.Staff;
 import net.indialend.attendence.dao.DatabaseHandler;
+import net.indialend.attendence.operation.ImageLoadTask;
+import net.indialend.attendence.operation.StaffDetailOperation;
 
-public class CommonActivity extends AppCompatActivity
+public  class CommonActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     DatabaseHandler db ;
@@ -26,8 +33,30 @@ public class CommonActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
     }
 
+    public void loadProfileDetail(Staff staff){
+        ((TextView) findViewById(R.id.profileName)).setText(staff.getName());
+        ((TextView) findViewById(R.id.profileEmail)).setText(staff.getEmail());
+
+        if(staff.getProfilePic() != null && !staff.getProfilePic().trim().isEmpty()) {
+
+            ImageView imageView = (ImageView) findViewById(R.id.profilePic);
+            new ImageLoadTask(staff.getProfilePic(), imageView).execute();
+        }
+
+        if(this instanceof ProfileActivity){
+            ((ProfileActivity) this).loadStaff(staff);
+        }
+
+    }
+
+    public void profileClick(View view){
+        Intent mapActivityIntent  =  new Intent(this, QRCodeActivity.class);
+        startActivity(mapActivityIntent);
+        finish();
+    }
 
 
     public void setupDrawer(){
@@ -44,6 +73,9 @@ public class CommonActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         db = new DatabaseHandler(this);
+
+        new StaffDetailOperation(this, "COMMON").execute();
+
 
     }
 
@@ -119,4 +151,5 @@ public class CommonActivity extends AppCompatActivity
 
         return true;
     }
+
 }

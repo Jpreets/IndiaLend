@@ -5,8 +5,8 @@ package net.indialend.attendence;
  */
 public interface Constant {
 
-    String domain ="http://1819114b.ngrok.io/attendance-backend";
-//    String domain ="http://jazzkart-jazzkart.rhcloud.com/attendance-backend";
+//    String domain ="http://1819114b.ngrok.io/attendance-backend";
+    String domain ="http://jazzkart-jazzkart.rhcloud.com/attendance-backend";
 
 
     String attendenceUrl = domain+"/api/saveAttendence";

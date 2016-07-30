@@ -10,20 +10,12 @@
         android:orientation="horizontal"
         android:weightSum="3">
 
-        <EditText
-            android:id="@+id/leaveDate"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:hint="Date"
-            android:onClick="openDatePicker"
-            android:editable="false" />
 
-        <EditText
-            android:id="@+id/leaveDescription"
+
+        <TextView
+            android:id="@+id/foodTime"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="Description"
             android:layout_weight="1"
              />
 
@@ -32,8 +24,8 @@
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Add Leave"
-            android:onClick="saveLeave" />
+            android:text="SCAN User"
+            android:onClick="scanQRCode" />
 
     </LinearLayout>
 
