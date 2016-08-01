@@ -1,0 +1,25 @@
+package routines;
+public class ControlledSubstance {
+
+	 /**
+     * isControlledSubstance: returns true if controlled.
+     * 
+     * 
+     * {talendTypes} String
+     * 
+     * {Category} User Defined
+     * 
+     * {param} string("") product: The product name.
+     * {param} string("") drugname: The drug name.
+     * 
+     * {example} isControlledSubstance("product","drugname") # is controlledsubstance !.
+     */
+	
+    public static boolean isControlledSubstance(String product,String drugname) {
+    	
+    	product=product.replaceAll("\\|beta\\|", "beta").toUpperCase();
+    	if(product.indexOf(drugname.toUpperCase())>0)
+    	{return true;}
+    	return false;
+    }       
+}

@@ -1,0 +1,34 @@
+package routines;
+
+public class SecondaryMatchType4 {
+    /**
+     * find: returns secondary match type.
+     * 
+     * 
+     * {talendTypes} String
+     * 
+     * {Category} User Defined
+     * 
+     * {param} string("mw") tlcMw: TLC Molecular Weight
+     * {param} string("mw") miiMw: MII Molecular Weigh		
+     * {param} string("") tlcFormula: TLC Formula
+     * {param} string("") miiFormula: MII Formula
+     * 
+     * {example} find("tlcMw","miiMw","tlcFormula","miiFormula") # secondary match type !.
+     */
+	public static String find(String tlcMw,String miiMw,
+			String tlcFormula,String miiFormula) {
+		String secMatchType="NONE";
+		 if ((tlcMw.equals(miiMw)) && tlcMw.length() > 0)
+		 { secMatchType = "MW"; }
+		 
+		 if (tlcFormula.equals(miiFormula))
+	        {
+	          if (!(secMatchType.equals("NONE")))
+	          { secMatchType += "+FORMULA"; }
+	          else 
+	          { secMatchType = "FORMULA"; } 
+	        }
+		 return secMatchType;
+	}
+}

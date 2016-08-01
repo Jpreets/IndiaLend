@@ -1,0 +1,32 @@
+package routines;
+public class RadioactiveIsotope {
+
+    /**
+     * isRadioactive: returns true if radioactive
+     * 
+     * 
+     * {talendTypes} String
+     * 
+     * {Category} User Defined
+     * 
+     * {param} string("product") input: The product name that needs to be checked for radioactivity
+     * 
+     * {example} isRadioactive(String product) # return true if radioactive !.
+     */
+	 
+    public static boolean isRadioactive(String product) {
+    	
+    	String[] radioactiveIsotopes = {"{3}H", "{4}H", "{5}H", "{6}H", "{7}H", "{8}H", "{9}H",
+                "{14}C", "{36}Cl", "{50}V", "{87}Rb",
+                "{90}Sr", "{115}In", "{123}Te", "{130}Te", "{125}I",
+                "{131}I", "{137}Cs", "{85}Kr", "{138}La", "{144}Nd",
+                "{147}Sm", "{176}Lu", "{186}Os", "{222}Rn",
+                "{230}Th", "{232}Th", "{232}U", "{234}U", "{235}U",
+                "{236}U", "{237}U", "{238}U"};
+    	for(String str:radioactiveIsotopes)
+    	{ if(product.indexOf(str)>0)
+    		return true;
+    	}
+    	return false;
+    }       
+}

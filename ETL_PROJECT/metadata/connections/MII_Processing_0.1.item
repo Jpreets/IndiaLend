@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:TalendMetadata="http://www.talend.org/metadata/connection/2010" xmlns:orgomg.cwm.resource.relational="http:///orgomg/cwm/resource/relational.ecore">
+  <TalendMetadata:DatabaseConnection xmi:id="___J6sDnUEeaq38py1hooXw" name="MII_Processing" id="_zmt-YDnUEeaq38py1hooXw" label="MII_Processing" dataPackage="_bfqqIFe1EeaHvPO-QpGgMg" DatabaseType="MySQL" DriverClass="org.gjt.mm.mysql.Driver" URL="jdbc:mysql://localhost:3306/mii_processing?allowMultiQueries=true" dbVersionString="MYSQL_5" Port="3306" Username="root" Password="AfuJBJdVpQFxwdC0+1Gmwg==" ServerName="localhost" DatasourceName="" FileFieldName="" SID="mii_processing" SqlSynthax="SQL Syntax" DbmsId="mysql_id" ProductId="MYSQL" AdditionalParams="allowMultiQueries=true" StandardSQL="true" SQLMode="false" UiSchema="">
+    <taggedValue xmi:id="___J6sTnUEeaq38py1hooXw" tag="Is Conn Need Reload" value="true"/>
+    <taggedValue xmi:id="___NlEDnUEeaq38py1hooXw" tag="package filter" value=""/>
+    <taggedValue xmi:id="___R2gDnUEeaq38py1hooXw" tag="Status" value=""/>
+    <taggedValue xmi:id="___R2gTnUEeaq38py1hooXw" tag="Version" value="0.1"/>
+    <taggedValue xmi:id="___R2gjnUEeaq38py1hooXw" tag="Purpose" value=""/>
+    <taggedValue xmi:id="___R2gznUEeaq38py1hooXw" tag="Description" value=""/>
+    <taggedValue xmi:id="___R2hDnUEeaq38py1hooXw" tag="Author" value=""/>
+    <taggedValue xmi:id="___R2hTnUEeaq38py1hooXw" tag="otherParameter"/>
+    <taggedValue xmi:id="___WH8DnUEeaq38py1hooXw" tag="DB ProductName" value="MySQL"/>
+    <taggedValue xmi:id="___WH8TnUEeaq38py1hooXw" tag="DB ProductVersion" value="5.5.50-0ubuntu0.14.04.1"/>
+    <taggedValue xmi:id="___WH8jnUEeaq38py1hooXw" tag="DB IdentifierQuoteString" value="`"/>
+    <parameters xmi:id="___J6sjnUEeaq38py1hooXw" key="CONN_PARA_KEY_USERNAME" value="root"/>
+  </TalendMetadata:DatabaseConnection>
+  <orgomg.cwm.resource.relational:Catalog xmi:id="_bfqqIFe1EeaHvPO-QpGgMg" name="mii_processing" dataManager="___J6sDnUEeaq38py1hooXw"/>
+</xmi:XMI>

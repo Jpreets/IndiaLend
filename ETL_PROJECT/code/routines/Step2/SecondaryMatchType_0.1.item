@@ -1,0 +1,32 @@
+package routines;
+
+public class SecondaryMatchType {
+
+    /**
+     * helloExample: not return value, only print "hello" + message.
+     * 
+     * 
+     * {talendTypes} String
+     * 
+     * {Category} User Defined
+     * 
+     * {param} string("mw") tlcMw: TLC Molecular Weight
+     * {param} string("mw") miiMw: MII Molecular Weigh
+     * {param} string("casno") tlcCAS: TLC CASNO
+     * {param} string("casno") miiCAS: MII CASNO
+     * {param} string("world") tlcFormula: TLC Formula
+     * {param} string("world") miiFormula: MII Formula
+     * 
+     * {example} helloExemple("world") # hello world !.
+     */
+	public static String find(String tlcMw,String miiMw,String tlcCAS,String miiCAS,String tlcFormula,String miiFormula) {
+		String secMatchType="NONE";
+        if(tlcMw.equals(miiMw))
+        {secMatchType="MW";}
+        else if(tlcCAS.equals(miiCAS))
+        {secMatchType="CASNO";}
+        else if(tlcFormula.equals(miiFormula))
+        {secMatchType="FORMULA";}
+        return secMatchType;
+    }
+}

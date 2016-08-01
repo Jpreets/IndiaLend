@@ -1,0 +1,82 @@
+package routines;
+
+import java.util.Arrays;
+public class SearchTokens {
+	 /**
+     * 
+     * {talendTypes} String
+     * 
+     * {Category} User Defined
+     * 
+     * {param}  input: The string need to be printed.
+     * 
+     * {example} generate("world") # generate Tokens !.
+     */
+    public static String generate(String input)
+    {	//Replace -- with -
+    	input=input.replaceAll("--", "-").toUpperCase();
+    	
+    	//Replace HTML tags
+    	input=input.replaceAll("<B>","").replaceAll("</B>","").replaceAll("<BR>","~");
+    	//Replace blanks
+    	input=input.replaceAll(" ", "~");
+    	//Replace commas
+    	input=input.replaceAll(",", "~");
+    	//Replace a weird character found in at least one product
+    	input=input.replaceAll("<95>", "~");
+    	//Replace the subscript tokens
+    	input=input.replaceAll("\\{-", "");
+    	input=input.replaceAll("-\\}", "");
+    	//Replace the superscript tokens
+    	input=input.replaceAll("\\{", "~");
+    	input=input.replaceAll("\\}", "");
+    	// Replace the parenthesis and square brackets
+    	input=input.replaceAll("\\(", "~");
+    	input=input.replaceAll("\\)", "~");
+    	input=input.replaceAll("\\[", "~");
+    	input=input.replaceAll("\\]", "~");
+    	//Replace the dashes
+    	input=input.replaceAll("-", "~");
+    	//Replace ~~ with ~
+    	input=input.replaceAll("~~", "~");
+    	//Replace greek letters
+    	input=input.replaceAll("\\|beta\\|", "beta");
+    	//Build a ~ delimited string to store in the search table
+    	String allLabels="";
+    	//Initialize the previous label
+    	String previousLabel="";
+    	int iCount=0;
+    	//Extract the keywords from the chemical name and sort them
+    	String keywords[]=input.split("~");
+    	Arrays.sort(keywords);
+    	for ( String keyword : keywords ) {
+            if(keyword.length()>0)
+            {
+            	if(allLabels.length()>0)
+            	{
+            		//Verify this is not a duplicate label
+            		if(!(keyword.equals(previousLabel))){
+            			if(iCount>0)
+            			{
+            				allLabels+="~";
+            			}
+            			allLabels+=keyword;
+            		}
+            	}
+            		else{
+            			if(iCount>0)
+            			{
+            				allLabels+="~";
+            			}
+            			allLabels+=keyword;
+            		}
+            	iCount++;
+            	}
+            // Update the previous label
+            previousLabel = keyword;
+        }
+    	allLabels= allLabels.replaceAll("~~", "~").replaceAll("~","%");
+    	allLabels="%"+allLabels+"%";
+    	return allLabels;
+    }
+}

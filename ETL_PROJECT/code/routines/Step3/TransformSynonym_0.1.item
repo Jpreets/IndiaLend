@@ -1,0 +1,27 @@
+package routines;
+
+public class TransformSynonym {
+
+    /**
+     * transform: returns synonym after transformation.
+     * 
+     * 
+     * {talendTypes} String
+     * 
+     * {Category} User Defined
+     * 
+     * {param} string("") input: The string need to be printed.
+     * 
+     * {example} transform("") # transformed Synonym !.
+     */
+	 public static String tranform(String input) {
+	    	input=input.replaceAll("\\{-", "");
+	    	input=input.replaceAll("-\\}", "");
+	    	input=input.replaceAll("\\{", "");
+	    	input=input.replaceAll("\\}", "");
+	    	input=input.replaceAll("\\|beta\\|","beta");
+	    	input=input.replaceAll("HCl","hydrochloride");
+	    	input=input.replaceAll("HBr","hydrobromide");
+	    	return input;
+	    }
+}

@@ -1,0 +1,26 @@
+package routines;
+public class TransformMIIProduct {
+
+    /**
+     * helloExample: not return value, only print "hello" + message.
+     * 
+     * 
+     * {talendTypes} String
+     * 
+     * {Category} User Defined
+     * 
+     * {param} string("world") input: The string need to be printed.
+     * 
+     * {example} helloExemple("world") # hello world !.
+     */
+    public static String tranform(String input) {
+    	input=input.replaceAll("\\{-", "");
+    	input=input.replaceAll("-\\}", "");
+    	input=input.replaceAll("\\{", "");
+    	input=input.replaceAll("\\}", "");
+    	input=input.replaceAll("\\|beta\\|","beta");
+    	input=input.replaceAll("HCl","hydrochloride");
+    	input=input.replaceAll("HBr","hydrobromide");
+    	return input;
+    }
+}

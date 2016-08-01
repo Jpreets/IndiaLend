@@ -1,0 +1,42 @@
+package routines;
+
+public class PrimaryMatchType {
+
+    /**
+     * find: Find Primary match type. 
+     * 
+     * 
+     * {talendTypes} String
+     * 
+     * {Category} User Defined
+     * 
+     * {param} string("") tlcProduct: input string TLC Product
+     * 
+     * {param} string("") miiSynonym: input string MII Product
+     * 
+     * 
+     * {example} find("world","") # Find Primary Match Type !.
+     */
+
+	public static String find(String tlcProduct,String miiProduct) {
+        String matchType="NONE";
+        if(tlcProduct.toUpperCase().equals(miiProduct.toUpperCase()))
+        {matchType="EXACT";}
+        else{
+        	String tMiiProd=miiProduct.toUpperCase();
+        	String tTlcProd=tlcProduct.toUpperCase();
+        	 tMiiProd=tMiiProd.replaceAll("-"," ");
+        	 tMiiProd=tMiiProd.replaceAll(" ","");
+        	 tMiiProd=tMiiProd.replaceAll(",","");
+             
+        	 tTlcProd=tTlcProd.replaceAll("-"," ");
+        	 tTlcProd=tTlcProd.replaceAll(" ","");
+        	 tTlcProd=tTlcProd.replaceAll(",","");
+       	 
+        	 if(tMiiProd.equals(tTlcProd))
+        	 {matchType="CLOSE";}
+             
+        }
+               return matchType;
+    }
+}

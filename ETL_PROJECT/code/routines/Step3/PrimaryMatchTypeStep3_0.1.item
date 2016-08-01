@@ -1,0 +1,37 @@
+package routines;
+public class PrimaryMatchTypeStep3 {
+
+    /**
+     * find: Primary match type.
+     * 
+     * 
+     * {talendTypes} String
+     * 
+     * {Category} User Defined
+     * 
+     * {param} string("") input: The string need to be printed.
+     * 
+     * {example} find("tlcProduct","miiSynonym") # Primary Match Type !.
+     */
+	public static String find(String tlcProduct,String miiSynonym) {
+        String matchType="NONE";
+        if(tlcProduct.toUpperCase().equals(miiSynonym.toUpperCase()))
+        {matchType="EXACT";}
+        else{
+        	String tMiiProd=miiSynonym.toUpperCase();
+        	String tTlcProd=tlcProduct.toUpperCase();
+        	 tMiiProd=tMiiProd.replaceAll("-"," ");
+        	 tMiiProd=tMiiProd.replaceAll(" ","");
+        	 tMiiProd=tMiiProd.replaceAll(",","");
+             
+        	 tTlcProd=tTlcProd.replaceAll("-"," ");
+        	 tTlcProd=tTlcProd.replaceAll(" ","");
+        	 tTlcProd=tTlcProd.replaceAll(",","");
+        	 
+        	 if(tMiiProd.equals(tTlcProd))
+        	 {matchType="CLOSE";}
+             
+        }
+               return matchType;
+    }
+}
