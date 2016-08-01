@@ -96,8 +96,6 @@ public class QRCodeActivity  extends CommonActivity{
         t.start();
 
 
-
-
     }
 
 
